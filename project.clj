@@ -6,6 +6,6 @@
   :dependencies [
                  [incanter "1.5.6"]
                  [org.clojure/clojure "1.6.0"]]
-  :main ^:skip-aot qbitos.core
+  :main qbitos.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
