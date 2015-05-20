@@ -18,22 +18,3 @@ This library is not distributed in any form apart from its Github Repository.
 
 ## Usage
 In order to use it, copy the jar file in the appropriate folder and import it as usual.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2015 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
