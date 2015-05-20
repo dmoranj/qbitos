@@ -86,7 +86,7 @@
             y (range (count column-indexes))
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
-        (reduce * element-values)))))
+        (reduce mul [1 0] element-values)))))
 
 ;;-----------------------------------------
 
@@ -118,12 +118,12 @@ C
 
 (mij 0 0 C C)
 
-(def COL1 [[1 2]])
-(def COL2 [[3 4]])
-(def COL3 [[5 6]])
+(def COL1 [[[1 1] [2 0]]])
+(def COL2 [[[3 0] [4 0]]])
+(def COL3 [[[5 0] [6 0]]])
 
-(def CUA1 [[1 2][3 4]])
-(def CUA2 [[5 6][7 8]])
+(def CUA1 [[[1 0][2 0]][[3 0][4 0]]])
+(def CUA2 [[[5 0][6 0]][[7 0][8 0]]])
 
 (tensorp COL2 COL1 COL3)
 (tensorp CUA1 CUA2)
