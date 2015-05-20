@@ -20,23 +20,30 @@
     (reduce #(sum %1 %2) [0 0] (map #(mul (first %) (second %)) (partition 2 (interleave rowi columnj))))))
 
 (defn mmul[a b]
+  {:pre [(= (count (first a)) (count b))]
+   :post [(and (= (count %) (count a)) (= (count (first %)) (count (first b))))]}
   (let [rows (count a)
         columns (count (first b))]
     (partition columns
       (for [x (range rows) y (range columns)]
-        (mij x y a b)))))
+        (mij x y a b)
+        ;;[x y rows columns]
+        ))))
 
-(defn transform[n f]
-  (vec (map vec (partition n
-    (for [x (range n)
-          y (range n)]
+(defn transform[na nb f]
+  (vec (map vec (partition na
+    (for [x (range na)
+          y (range nb)]
       (f x y))))))
 
 (defn msum[a b]
-  (transform (count a) #(sum (get-in a [%1 %2]) (get-in b [%1 %2]))))
+  {:pre [(and (= (count a) (count b)) (= (count (first a)) (count (first b))))]}
+  (transform (count a) (count (first a)) #(sum (get-in a [%1 %2]) (get-in b [%1 %2]))))
 
 (defn trans[a]
-  (transform (count a) #(get-in a [%2 %1])))
+  {:post [(and (= (count %) (count (first a))) (= (count (first %)) (count a)))]
+   }
+  (transform (count a) (count (first a)) #(get-in a [%2 %1])))
 
 (defn null[n]
   (vec(take n (repeat (vec (repeat n (complex 0 0)))))))
@@ -79,7 +86,7 @@
         columns (count (first (first matrices)))
         row-indexes (vec (tensorp-indices n rows))
         column-indexes (vec (tensorp-indices n columns))]
-    (partition (int (Math/pow rows 2))
+    (partition (int (Math/pow rows n))
       (for [x (range (count row-indexes))
             y (range (count column-indexes))
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
