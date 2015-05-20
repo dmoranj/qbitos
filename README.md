@@ -1,4 +1,4 @@
-# Qbitos: Quantum Mechanics experimentation "On the rocks"
+# Qbitos: Quantum Mechanics "On the rocks"
 
 ## Overview
 This library is devoted to the experimentation with the mathematic operations and abstractions of the Quantum Computing and Quantum mechanics fields. It is not expected to be efficient or be part of any real-life system, but to provide some useful tools to study and understand some of the most typical Quantum Computing exercises.
