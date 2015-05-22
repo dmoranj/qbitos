@@ -40,10 +40,16 @@
   {:pre [(and (= (count a) (count b)) (= (count (first a)) (count (first b))))]}
   (transform (count a) (count (first a)) #(sum (get-in a [%1 %2]) (get-in b [%1 %2]))))
 
+
 (defn trans[a]
   {:post [(and (= (count %) (count (first a))) (= (count (first %)) (count a)))]
    }
-  (transform (count a) (count (first a)) #(get-in a [%2 %1])))
+  (let [rows (count a)
+        columns (count (first a))]
+    (vec (map vec (partition rows
+    (for [x (range columns)
+          y (range rows)]
+      (get-in a [y x])))))))
 
 (defn null[n]
   (vec(take n (repeat (vec (repeat n (complex 0 0)))))))

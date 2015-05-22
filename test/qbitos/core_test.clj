@@ -9,6 +9,8 @@
 (def COL2 [[[3 0] [4 0]]])
 (def COL3 [[[5 0] [6 0]]])
 
+(def RECT [[[1 1] [2 0]],[[1 1] [2 0]],[[1 1] [2 0]]])
+
 (def CUA1 [[[1 0][2 0]][[3 0][4 0]]])
 (def CUA2 [[[5 0][6 0]][[7 0][8 0]]])
 
@@ -27,6 +29,12 @@
 (deftest conjugate-multiplication
   (testing "Multiplication by the conjugate."
     (is (= (mul A (conjugate A)) [34 0]))))
+
+(deftest transposition
+  (testing "Transposition of matrices"
+    (is (= (trans RECT) [[[1 1] [1 1] [1 1]] [[2 0] [2 0] [2 0]]]))
+    (is (= (trans COL1) [[[1 1]] [[2 0]]]))
+    (is (= (trans C) [[[1 5] [0 2]] [[-1 3] [6 -1]]]))))
 
 (deftest identity-generation
   (testing "Generation of an identity matrix."
