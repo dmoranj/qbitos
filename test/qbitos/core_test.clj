@@ -56,9 +56,9 @@
   (testing "Multiplication of complex matrices."
     (is (= (mmul C (inv 2)) [[[-1 3] [1 5]] [[6 -1] [0 2]]]))))
 
-;(deftest tensor-product
-;  (testing "Tensor product of complex matrices."
-;    (is (= (first (tensorp COL2 COL1 COL3)) ([15 15])))))
+(deftest tensor-product
+  (testing "Tensor product of complex matrices."
+    (is (= (tensorp COL1 COL2) [[[3 3]] [[4 4]] [[6 0]] [[8 0]]]))))
 
 
 

@@ -85,17 +85,15 @@
         parameters (vec (reduce #(concat %1 [%2 `(range ~r)]) [] names))]
   (eval `(for ~parameters ~names))))
 
-
 (defn tensorp [& matrices]
   (let [n (count matrices)
         rows (count (first matrices))
         columns (count (first (first matrices)))
         row-indexes (vec (tensorp-indices n rows))
         column-indexes (vec (tensorp-indices n columns))]
-    (partition (int (Math/pow rows n))
+    (vec (map vec (partition (int (Math/pow rows n))
       (for [x (range (count row-indexes))
             y (range (count column-indexes))
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
-        (reduce mul [1 0] element-values)))))
-
+        (reduce mul [1 0] element-values)))))))
