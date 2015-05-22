@@ -91,9 +91,9 @@
         columns (count (first (first matrices)))
         row-indexes (vec (tensorp-indices n rows))
         column-indexes (vec (tensorp-indices n columns))]
-    (vec (map vec (partition (int (Math/pow rows n))
+    (trans (vec (map vec (partition (int (Math/pow rows n))
       (for [x (range (count row-indexes))
             y (range (count column-indexes))
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
-        (reduce mul [1 0] element-values)))))))
+        (reduce mul [1 0] element-values))))))))
