@@ -24,11 +24,9 @@
    :post [(and (= (count %) (count a)) (= (count (first %)) (count (first b))))]}
   (let [rows (count a)
         columns (count (first b))]
-    (partition columns
+    (vec (map vec (partition columns
       (for [x (range rows) y (range columns)]
-        (mij x y a b)
-        ;;[x y rows columns]
-        ))))
+        (mij x y a b)))))))
 
 (defn transform[na nb f]
   (vec (map vec (partition na
