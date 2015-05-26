@@ -35,6 +35,11 @@
 (def Z [[[1 0][0 0]]
         [[0 0][-1 0]]])
 
+(def n [[[0 0 ][0 0]]
+        [[0 0 ][1 0]]])
+
+(def nn [[[1 0][0 0]]
+         [[0 0][0 0]]])
 
 (defmacro defbits[x]
   (let [characters (-> x str seq rest butlast vec)]
