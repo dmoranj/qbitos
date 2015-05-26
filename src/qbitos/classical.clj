@@ -42,6 +42,12 @@
          [[0 0][0 0]]])
 
 (defmacro defbits[x]
-  (let [characters (-> x str seq rest butlast vec)]
-    `(def ~x (apply tensorp (map #(if (= (str %) "0") |0> |1>) ~characters)))))
+  (let [bits (-> x str seq rest butlast vec)]
+      `(def ~x (apply tensorp (map #(if (= (str %) "0") |0> |1>) ~bits)))))
 
+(defmacro defoperator[x n]
+  (let [operation (-> x str seq first str symbol)
+        indexes (Integer/parseInt (-> x str seq rest first str))
+        operators (vec (repeat n (ident 2)))]
+      `(def ~x (apply tensorp (assoc ~operators ~indexes ~operation)))
+    ))
