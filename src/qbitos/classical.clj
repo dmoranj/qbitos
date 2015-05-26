@@ -36,5 +36,7 @@
         [[0 0][-1 0]]])
 
 
-
+(defmacro defbits[x]
+  (let [characters (-> x str seq rest butlast vec)]
+    `(def ~x (apply tensorp (map #(if (= (str %) "0") |0> |1>) ~characters)))))
 
