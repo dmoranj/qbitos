@@ -95,3 +95,7 @@
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
         (reduce mul [1 0] element-values))))))))
+
+(defn cmul[c a]
+  (let [mrow (fn [row] (vec (map #(mul c %) row)))]
+    (vec (map mrow a))))

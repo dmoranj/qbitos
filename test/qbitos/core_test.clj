@@ -60,5 +60,9 @@
   (testing "Tensor product of complex matrices."
     (is (= (tensorp COL1 COL2) [[[3 3][4 4][6 0][8 0]]]))))
 
+(deftest constant-product
+  (testing "Product of a constant by a matrix."
+    (is (= (cmul [2 0] (ident 2)) [[[2 0] [0 0]] [[0 0] [2 0]]]))
+    ))
 
 

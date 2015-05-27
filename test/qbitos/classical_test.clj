@@ -19,10 +19,10 @@
 (deftest number-operator
   (testing "Number operator conditions."
     (is (= (mmul n n) n))
-    (is (= (mmul nn nn) nn))
-    (is (= (mmul nn n) (mmul n nn)))
-    (is (= (mmul nn n) [[[0 0] [0 0]] [[0 0] [0 0]]]))
-    (is (= (msum n nn) (ident 2)))))
+    (is (= (mmul ñ ñ) ñ))
+    (is (= (mmul ñ n) (mmul n ñ)))
+    (is (= (mmul ñ n) [[[0 0] [0 0]] [[0 0] [0 0]]]))
+    (is (= (msum n ñ) (ident 2)))))
 
 (deftest operator-combination
   (testing "Operator combination macro"
