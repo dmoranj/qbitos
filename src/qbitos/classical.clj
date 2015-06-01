@@ -62,5 +62,4 @@
     `(def ~x (apply tensorp ~matrix))
     ))
 
-(defoperator X0X2 4)
 
