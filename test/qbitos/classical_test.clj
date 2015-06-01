@@ -9,12 +9,18 @@
 (defbits |00>)
 (defbits |010>)
 (defbits |110>)
+(defbits <10|)
+
 (defoperator X1 2)
 (defoperator X0 3)
 
 (deftest multibit-definition
   (testing "Definition of multibit constants."
     (is (= |10> [[[0 0]] [[0 0]] [[1 0]] [[0 0]]]))))
+
+(deftest multibit-bravector
+  (testing "Define multibit bra vectors."
+    (is (= <10| [[[0 0] [0 0] [1 0] [0 0]]]))))
 
 (deftest number-operator
   (testing "Number operator conditions."
