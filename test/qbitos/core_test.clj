@@ -50,11 +50,13 @@
 
 (deftest matrix-sum
   (testing "Sum of complex matrices."
-    (is (= (msum C (ident 2)) [[[2 5] [-1 3]] [[0 2] [7 -1]]]))))
+    (is (= (msum C (ident 2)) [[[2 5] [-1 3]] [[0 2] [7 -1]]]))
+    (is (= (msum (ident 2) (ident 2) (ident 2)) (cmul [3 0] (ident 2))))))
 
 (deftest matrix-mul
   (testing "Multiplication of complex matrices."
-    (is (= (mmul C (inv 2)) [[[-1 3] [1 5]] [[6 -1] [0 2]]]))))
+    (is (= (mmul C (inv 2)) [[[-1 3] [1 5]] [[6 -1] [0 2]]]))
+    (is (= (mmul C (inv 2) (inv 2)) C))))
 
 (deftest tensor-product
   (testing "Tensor product of complex matrices."
@@ -62,7 +64,6 @@
 
 (deftest constant-product
   (testing "Product of a constant by a matrix."
-    (is (= (cmul [2 0] (ident 2)) [[[2 0] [0 0]] [[0 0] [2 0]]]))
-    ))
+    (is (= (cmul [2 0] (ident 2)) [[[2 0] [0 0]] [[0 0] [2 0]]]))))
 
 

@@ -19,7 +19,7 @@
         columnj (map #(get % y) b)]
     (reduce #(sum %1 %2) [0 0] (map #(mul (first %) (second %)) (partition 2 (interleave rowi columnj))))))
 
-(defn mmul[a b]
+(defn single-mmul[a b]
   {:pre [(= (count (first a)) (count b))]
    :post [(and (= (count %) (count a)) (= (count (first %)) (count (first b))))]}
   (let [rows (count a)
@@ -28,16 +28,21 @@
       (for [x (range rows) y (range columns)]
         (mij x y a b)))))))
 
+(defn mmul[& matrixList]
+  (reduce #(single-mmul %1 %2) (first matrixList) (rest matrixList)))
+
 (defn transform[na nb f]
   (vec (map vec (partition na
     (for [x (range na)
           y (range nb)]
       (f x y))))))
 
-(defn msum[a b]
+(defn single-msum[a b]
   {:pre [(and (= (count a) (count b)) (= (count (first a)) (count (first b))))]}
   (transform (count a) (count (first a)) #(sum (get-in a [%1 %2]) (get-in b [%1 %2]))))
 
+(defn msum[& matrixList]
+  (reduce #(single-msum %1 %2) (first matrixList) (rest matrixList)))
 
 (defn trans[a]
   {:post [(and (= (count %) (count (first a))) (= (count (first %)) (count a)))]

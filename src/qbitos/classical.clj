@@ -59,7 +59,6 @@
         addOperator (fn [list [op index]] (assoc list index op))
         matrix (reduce addOperator initial operatorList)
         ]
-    `(def ~x (apply tensorp ~matrix))
-    ))
+    `(def ~x (apply tensorp ~matrix))))
 
 
