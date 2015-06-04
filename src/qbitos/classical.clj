@@ -61,4 +61,17 @@
         ]
     `(def ~x (apply tensorp ~matrix))))
 
+(defmacro def-cij[i j n]
+  (let [opX (symbol (str "X" j))
+        opZ (symbol (str "Z" i))
+        unit (ident (Math/pow 2 n))]
+  `(do
+     (defoperator ~opX ~n)
+     (defoperator ~opZ ~n)
+     ;;(msum (cmul [0.5 0] (msum ~unit ~opX)) (cmul [0.5 0] (mmul ~opZ (msum ~unit (cmul [-1 0] ~opX)))))
+     (msum (->> ~opX (msum ~unit) (cmul [0.5 0])) (->> ~opX (cmul [-1 0]) (msum ~unit) (mmul ~opZ) (cmul [0.5 0])))
+    )
+  ))
+
+(def-cij 1 0 4)
 
