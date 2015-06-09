@@ -37,3 +37,10 @@
     (is (= (mmul X1 |10>) |11>))
     (is (= (mmul X0 |010>) |110>))
     ))
+
+(defcij 1 0 2)
+
+(deftest generic-conditional-not
+  (testing "Creation of generic conditional NOT doors"
+    (is (= C-10 (matrixToDouble C10)))
+    ))

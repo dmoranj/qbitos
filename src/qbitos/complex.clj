@@ -1,6 +1,12 @@
 (ns qbitos.complex
   (:gen-class))
 
+(defn rowToDouble[row]
+  (vec (map #(vec (map double %)) row)))
+
+(defn matrixToDouble[matrix]
+  (vec (map rowToDouble matrix)))
+
 (defn complex [a b]
   [a b])
 
