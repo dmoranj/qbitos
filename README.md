@@ -199,11 +199,11 @@ qbitos.core=>
 #### |1>
 The representation of the bit 0 in a vectorial classical base.
 
-´´´
+```
 qbitos.core=> |1>
 [[[0 0]] [[1 0]]]
 qbitos.core=>
-´´´
+```
 
 #### (defbits bits)
 Defines in the global scope a variable containing the matrix representation of the bit combination specified in the parameter `bits`; i.e.: the tensor product of all the bits in the sequence enclosed by the ket symbols. Both bra and ket vectors can be defined using this function (in the later case the representation will be a column vector and a row vector in the former).
