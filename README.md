@@ -36,7 +36,11 @@ This API represents matrices as vectors of vectors of vectors:
 As an example, you can see the range 3 identity matrix:
 ```
 qbitos.core=> (ident 3)
-[[[1 0] [0 0] [0 0]] [[0 0] [1 0] [0 0]] [[0 0] [0 0] [1 0]]]
+[
+[[1 0] [0 0] [0 0]]
+[[0 0] [1 0] [0 0]]
+[[0 0] [0 0] [1 0]]
+]
 qbitos.core=> 
 ```
 As you can see, there are three rows, with real parts of the main diagonal with value one and the rest of the elements with zero value.
@@ -47,7 +51,11 @@ The following sections show the API one operator at a time.
 Creates an identity matrix of range `r`.
 ```
 qbitos.core=> (ident 3)
-[[[1 0] [0 0] [0 0]] [[0 0] [1 0] [0 0]] [[0 0] [0 0] [1 0]]]
+[
+[[1 0] [0 0] [0 0]]
+[[0 0] [1 0] [0 0]]
+[[0 0] [0 0] [1 0]]
+]
 qbitos.core=> 
 ```
 
@@ -55,7 +63,11 @@ qbitos.core=>
 Creates a null matrix of range `r`.
 ```
 qbitos.core=> (null 3)
-[[[0 0] [0 0] [0 0]] [[0 0] [0 0] [0 0]] [[0 0] [0 0] [0 0]]]
+[
+[[0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0]]
+]
 qbitos.core=> 
 ```
 
@@ -65,9 +77,17 @@ Creates an inverse matrix of range `r`, i.e.: a matrix that, multiplied by anoth
 qbitos.core=> (def pruebas (msum (ident 3) (ident 3) (ident 3)))
 #'qbitos.core/pruebas
 qbitos.core=> pruebas
-[[[3 0] [0 0] [0 0]] [[0 0] [3 0] [0 0]] [[0 0] [0 0] [3 0]]]
+[
+[[3 0] [0 0] [0 0]]
+[[0 0] [3 0] [0 0]]
+[[0 0] [0 0] [3 0]]
+]
 qbitos.core=> (mmul pruebas (inv 3))
-[[[0 0] [0 0] [3 0]] [[0 0] [3 0] [0 0]] [[3 0] [0 0] [0 0]]]
+[
+[[0 0] [0 0] [3 0]]
+[[0 0] [3 0] [0 0]]
+[[3 0] [0 0] [0 0]]
+]
 qbitos.core=>
 ```
 
@@ -78,7 +98,10 @@ Generates the transpose of the matrix `m`.
 qbitos.core=> (def CUA3 [[[5 2][6 0]][[7 -9][8 0]]])
 #'qbitos.core/CUA3
 qbitos.core=> (trans CUA3)
-[[[5 2] [7 -9]] [[6 0] [8 0]]]
+[
+[[5 2] [7 -9]] 
+[[6 0] [8 0]]
+]
 qbitos.core=> 
 ```
 
@@ -86,7 +109,11 @@ qbitos.core=>
 Sum matrices of the same dimensions.
 ```
 qbitos.core=> (msum (ident 3) (ident 3) (ident 3))
-[[[3 0] [0 0] [0 0]] [[0 0] [3 0] [0 0]] [[0 0] [0 0] [3 0]]]
+[
+[[3 0] [0 0] [0 0]]
+[[0 0] [3 0] [0 0]]
+[[0 0] [0 0] [3 0]]
+]
 qbitos.core=> 
 ```
 
@@ -106,7 +133,11 @@ qbitos.core=>
 Multiplies a matrix `m` by a constant complex number `c`.
 ```
 qbitos.core=> (cmul [6 2] (ident 3))
-[[[6 2] [0 0] [0 0]] [[0 0] [6 2] [0 0]] [[0 0] [0 0] [6 2]]]
+[
+[[6 2] [0 0] [0 0]]
+[[0 0] [6 2] [0 0]]
+[[0 0] [0 0] [6 2]]
+]
 qbitos.core=> 
 ```
 
@@ -134,6 +165,20 @@ Add to complex numbers together.
 ```
 qbitos.core=> (sum [2 0] [-3 1])
 [-1 1]
+qbitos.core=> 
+```
+
+#### (tensorp m1..mn)
+Calculates the tensor product of all the matrices passed as a parameter.
+
+```
+qbitos.core=> (tensorp (ident 2) (inv 2))
+[
+[[0 0] [1 0] [0 0] [0 0]] 
+[[1 0] [0 0] [0 0] [0 0]] 
+[[0 0] [0 0] [0 0] [1 0]] 
+[[0 0] [0 0] [1 0] [0 0]]
+]
 qbitos.core=> 
 ```
 
