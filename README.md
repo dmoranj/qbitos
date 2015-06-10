@@ -183,4 +183,62 @@ qbitos.core=>
 ```
 
 ### The Quantum Computing API
+This API contains functions and constants that may be useful in dealing with examples and exercises related to the Quantum Computing subject (Constants are shown as identifiers and functions between parentheses and with their parameters). Some constants are shown grouped, for brevity.
 
+This part of the API aims to offer an interface as similar as Dirac's notation as possible. To that extent, it offers bra and ket definition and operations with bras and kets, as well as functions to globally define matrix operators that will be used later in designing quantum gates. 
+
+#### |0>
+The representation of the bit 0 in a vectorial classical base.
+
+```
+qbitos.core=> |0>
+[[[1 0]] [[0 0]]]
+qbitos.core=> 
+```
+
+#### |1>
+The representation of the bit 0 in a vectorial classical base.
+
+´´´
+qbitos.core=> |1>
+[[[0 0]] [[1 0]]]
+qbitos.core=>
+´´´
+
+#### (defbits bits)
+Defines in the global scope a variable containing the matrix representation of the bit combination specified in the parameter `bits`; i.e.: the tensor product of all the bits in the sequence enclosed by the ket symbols. Both bra and ket vectors can be defined using this function (in the later case the representation will be a column vector and a row vector in the former).
+
+```
+qbitos.core=> (defbits |0100>)
+#'qbitos.core/|0100>
+qbitos.core=> |0100>
+[[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]]]
+qbitos.core=> 
+qbitos.core=> (defbits <0100|)
+#'qbitos.core/<0100|
+qbitos.core=> <0100|
+[[[0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]]
+qbitos.core=> 
+```
+
+### X Y and Z
+Matrix representation of the range 2 Pauli matrices.
+
+```
+qbitos.core=> X
+[
+[[0 0] [1 0]]
+[[1 0] [0 0]]
+]
+qbitos.core=> Y
+[
+[[0 0] [0 -1]]
+[[0 1] [0 0]]
+]
+qbitos.core=> Z
+[
+[[1 0] [0 0]]
+[[0 0] [-1 0]]
+]
+qbitos.core=> 
+```
