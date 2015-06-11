@@ -220,8 +220,7 @@ qbitos.core=> <0100|
 [[[0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]]
 qbitos.core=> 
 ```
-
-### X Y and Z
+#### X Y and Z
 Matrix representation of the range 2 Pauli matrices.
 
 ```
@@ -242,3 +241,56 @@ qbitos.core=> Z
 ]
 qbitos.core=> 
 ```
+
+#### H
+The Hadamar operator (numeric value).
+
+```
+qbitos.core=> H
+[
+[[0.7071067811865475 0.0] [0.7071067811865475 0.0]]
+[[0.7071067811865475 0.0] [-0.7071067811865475 0.0]]
+]
+qbitos.core=> 
+```
+
+#### (defoperator op n)
+Defines a new operator consisting in a tensor product of the selected one bit operators and one bit identity matrices to fill up to n bits. The `op` param is the name the operator variable will use, and its description. It must have the format `(<ID><BIT>)+` where <ID> is an operator already defined globally and <BIT> the number of the bit over which it applies. E.g.: the operator `(defoperator X1Z0 4)` would define a 4 bit operator that applies the Z operator to the 0 bit, the X operator to the 1 bit and the identity operator to the rest, that is, the tensor product: X * Z * 1 * 1; where X and Z are Pauli matrices and 1 the range 2 identity matrix. The result would be a 16x16 matrix.
+
+```
+qbitos.core=> (defoperator X1Z2 3)
+#'qbitos.core/X1Z2
+qbitos.core=> X1Z2
+[
+[[0 0] [0 0] [1 0] [0 0] [0 0] [0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0] [-1 0] [0 0] [0 0] [0 0] [0 0]]
+[[1 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]
+[[0 0] [-1 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [1 0] [0 0]]
+[[0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [-1 0]]
+[[0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0] [0 0] [0 0] [-1 0] [0 0] [0 0]]
+]
+qbitos.core=> 
+```
+
+#### (defcij i j n)
+Defines a conditional NOT operator where i is the control bit and j the controlled bit, appliable to n-bit vectors (i.e.: the operator is a matrix of 2^n rows). The operator is defined in the global scope as `C-ij` being i and j the numbers passed as parameters.
+
+```
+qbitos.core=> (defcij 1 2 3)
+#'qbitos.core/C-12
+qbitos.core=> C-12
+[
+[[1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0]]
+]
+qbitos.core=> 
+```
+
