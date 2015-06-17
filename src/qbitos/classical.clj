@@ -5,12 +5,12 @@
 
 (def |0> [[(complex 1 0)] [(complex 0 0)]])
 (def |1> [[(complex 0 0)] [(complex 1 0)]])
-(def C10 [[[1 0 ][0 0][0 0 ][0 0]]
+(def C01 [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
           ])
-(def C01 [[[1 0 ][0 0][0 0 ][0 0]]
+(def C10 [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
@@ -61,8 +61,8 @@
     `(def ~x (apply tensorp ~matrix))))
 
 (defmacro defcij[i j n]
-  (let [opX (symbol (str "X" i))
-        opZ (symbol (str "Z" j))
+  (let [opX (symbol (str "X" j))
+        opZ (symbol (str "Z" i))
         unit (ident (int (Math/pow 2 n)))
         operator-name (symbol (str "C-" i j))]
   `(do
