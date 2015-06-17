@@ -22,6 +22,13 @@
   (testing "Define multibit bra vectors."
     (is (= <10| [[[0 0] [0 0] [1 0] [0 0]]]))))
 
+(deftest conditional-not-constant
+  (testing "Test the 2-bit constant CNOT"
+    (is (= (mmul C01 |10>) |11>))
+    (is (= (mmul C01 |00>) |00>))
+    (is (= (mmul C01 |01>) |01>))
+    ))
+
 (deftest number-operator
   (testing "Number operator conditions."
     (is (= (mmul n n) n))
