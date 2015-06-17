@@ -12,7 +12,7 @@
 (defbits <10|)
 
 (defoperator X1 2)
-(defoperator X0 3)
+(defoperator Y0 3)
 
 (deftest multibit-definition
   (testing "Definition of multibit constants."
@@ -35,12 +35,11 @@
     (is (= (mmul X1 |10>) |11>))
     (is (= (mmul X1 |01>) |00>))
     (is (= (mmul X1 |10>) |11>))
-    (is (= (mmul X0 |010>) |110>))
+    (is (= (mmul Y0 |010>) [[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 -1]] [[0 0]]]))
     ))
-
-(defcij 1 0 2)
 
 (deftest generic-conditional-not
   (testing "Creation of generic conditional NOT doors"
+    (defcij 1 0 2)
     (is (= C-10 (matrixToDouble C10)))
     ))
