@@ -14,4 +14,9 @@
   (def f0 (ident 4))
   (def f1 C01)
   (def f2 (mmul C01 X1))
-  (def f3 X1))
+  (def f3 X1)
+
+  (defoperator H0H1 2)
+  (defoperator X0X1 2)
+  (defoperator H0 2)
+  )
