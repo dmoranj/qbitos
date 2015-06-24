@@ -301,7 +301,7 @@ qbitos.core=>
 
 ## Exercises
 
-### Exercise 1. The Deutch problem
+### Exercise 1. The Deutsch's problem
 
 The Deutch problems is the easiest exercise that shows the power of the quantum computation to solve problems more efficiently than the classical procedures. This is the problem's description:
 
