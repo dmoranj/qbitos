@@ -29,6 +29,7 @@ lein repl
 
 The result in both cases will be a command line interpreter in your console where you can start to type all the examples shown in the usage description.
 
+## Usage
 ### The Complex Matrices API
 At the very roots of the Quantum Computation fields there is a whole bunch of mathematical operations, mainly related with vector spaces and complex matrices. This API aims to deal with all this operations in an easey way. BIG IMPORTANT DISCLAIMER: this API is not meant to be efficient (and it doesn't happen to be); its sole purpose is to be used as a didactical resource on the learning of quantum computing and, as such, it has severe limitations on the size of the operations it can execute. As a hint, you better not work with more than six or eight QBits at a time (as you will see, you will be operating with matrices of 2^n range, being n the number of QBits, so you can see this will grow really, really fast).
 
@@ -297,4 +298,28 @@ qbitos.core=> C-12
 ]
 qbitos.core=> 
 ```
+
+## Exercises
+
+### Exercise 1. The Deutch problem
+
+The Deutch problems is the easiest exercise that shows the power of the quantum computation to solve problems more efficiently than the classical procedures. This is the problem's description:
+
+> Imagine a black box quantum computing device that works as a 2-qbit machine that applies
+> a certain **Uf** transformation to the input and output registers (the first and second 
+> qbits respectively). Due to the discrete nature of the bits there are only four possible
+> Uf operators that take the input qbit into an output qbit, i.e:
+
+| Function        | Uf [00> | Uf [10> |
+|:--------------- |:-------:|:-------:|
+| Identity        | [00>  | [10>  |
+| CNOT-01         | [00>  | [11>  |
+| X · CNOT01      | [01>  | [10>  |
+| X               | [01>  | [11> |
+
+> In the table, the operator is applied to a set of two QBits [io>, returning another set 
+> of two qbits, where both the input and output registers can be modified. The problem is 
+> the following: how can we determine which function is inside the black box without opening
+> it, using the minimum number of operations.
+
 
