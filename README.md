@@ -312,10 +312,10 @@ The Deutch problems is the easiest exercise that shows the power of the quantum 
 
 | Function        | Uf [00> | Uf [10> |
 |:--------------- |:-------:|:-------:|
-| Identity        | [00>  | [10>  |
-| CNOT-01         | [00>  | [11>  |
-| X · CNOT01      | [01>  | [10>  |
-| X               | [01>  | [11> |
+| Identity        | [00>    | [10>    |
+| CNOT-01         | [00>    | [11>    |
+| CNOT-01 · X0    | [01>    | [10>    |
+| X0              | [01>    | [11>    |
 
 > In the table, the operator is applied to a set of two QBits [io>, returning another set 
 > of two qbits, where both the input and output registers can be modified. The problem is 
