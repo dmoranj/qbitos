@@ -14,16 +14,20 @@ The ide of the library is to provide:
 The Complex Numbers library used within Qbitos assumes that a Complex Number is a Clojure Vector of two real numbers, being the first the real part and the second one the imaginary part.
 
 ## Installation
-This library is not distributed in any form apart from its Github Repository. In order to use it and complete examples and exercises, just clone the repository as usual.
+There are two ways of using this library in order to follow the exercises: cloning the repository and using the Docker image.
 
-## Usage
-This project is aimed to be used with [Leiningen](http://leiningen.org/); follow the instructions in the link and install it in your system.
+In order to use the Docker image, just type the following command on a console:
+```
+docker run -ti dmoranj/qbitos
+```
+This will directly open a REPL with the preloaded library.
 
-All the examples that will be shown in this document will be using lein's REPL. In order to execute the REPL, go to the root folder of the project and type:
+For those cases where docker is not available, the library can be executed from a computer with an installed [Leiningen](http://leiningen.org/), just cloning the repository, going to the root folder and typing:
 ```
 lein repl
 ```
-The result will be a command line interpreter in your console where you can start to type all the examples shown in the usage description.
+
+The result in both cases will be a command line interpreter in your console where you can start to type all the examples shown in the usage description.
 
 ### The Complex Matrices API
 At the very roots of the Quantum Computation fields there is a whole bunch of mathematical operations, mainly related with vector spaces and complex matrices. This API aims to deal with all this operations in an easey way. BIG IMPORTANT DISCLAIMER: this API is not meant to be efficient (and it doesn't happen to be); its sole purpose is to be used as a didactical resource on the learning of quantum computing and, as such, it has severe limitations on the size of the operations it can execute. As a hint, you better not work with more than six or eight QBits at a time (as you will see, you will be operating with matrices of 2^n range, being n the number of QBits, so you can see this will grow really, really fast).
