@@ -1,7 +1,7 @@
 # Qbitos: Quantum Mechanics "On the rocks"
 
 ## Overview
-This library is devoted to the experimentation with the mathematic operations and abstractions of the Quantum Computing and Quantum mechanics fields. It is not expected to be efficient or be part of any real-life system, but to provide some useful tools to study and understand some of the most typical Quantum Computing exercises.
+This library is devoted to the experimentation with the mathematic operations and abstractions of the Quantum Computing and Quantum mechanics fields. It is not expected to be efficient or be part of any real-life system, but to provide some useful tools to study and understand some of the most typical Quantum Computing exercises. The exercises and examples of this library are directly based on the following book: "Quantum Computer Science. An Introduction", N. David Mermin, Cambridge Press.
 
 This library uses its own Complex Matrix library, built from scratch, for learning purposes. Every comment on the library usage is appliable to this Math library as well.
 
@@ -303,23 +303,86 @@ qbitos.core=>
 
 ### Exercise 1. The Deutsch's problem
 
-The Deutch problems is the easiest exercise that shows the power of the quantum computation to solve problems more efficiently than the classical procedures. This is the problem's description:
+The Deutch problems is one of the easiest exercises showing the power of the quantum computating algorithms in solving problems more efficiently than its classical counterparts. This is the problem's description:
 
 > Imagine a black box quantum computing device that works as a 2-qbit machine that applies
 > a certain **Uf** transformation to the input and output registers (the first and second 
 > qbits respectively). Due to the discrete nature of the bits there are only four possible
 > Uf operators that take the input qbit into an output qbit, i.e:
 
-| Function        | Uf [00> | Uf [10> |
-|:--------------- |:-------:|:-------:|
-| Identity        | [00>    | [10>    |
-| CNOT-01         | [00>    | [11>    |
-| CNOT-01 · X0    | [01>    | [10>    |
-| X0              | [01>    | [11>    |
+| Name | Function        | Uf [00> | Uf [10> |
+|:---- |:--------------- |:-------:|:-------:|
+| f0   | Identity        | [00>    | [10>    |
+| f1   | CNOT-01         | [00>    | [11>    |
+| f2   | CNOT-01 · X0    | [01>    | [10>    |
+| f3   | X0              | [01>    | [11>    |
 
 > In the table, the operator is applied to a set of two QBits [io>, returning another set 
 > of two qbits, where both the input and output registers can be modified. The problem is 
-> the following: how can we determine which function is inside the black box without opening
-> it, using the minimum number of operations.
+> the following: how can we determine if a function inside the black box is constant,
+> f(0)= f(1), or not constant, f(0) != f(1), without opening it, using the minimum number
+> of operations.
+
+First of all, let's try to get an idea about the problem using classical computation and the QBitos library. Start by loading the common scenario variables by typing the following from the REPL
+```
+qbitos.core=> (loadDeutch)
+#'qbitos.scenarios/H0
+qbitos.core=> 
+```
+This will load some global variables that will be useful during this exercises. We can start by applying the different functions to each of the four possible input values, to see their possible outcomes:
+```
+qbitos.core=> (mmul f0 |00>)
+[[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
+qbitos.core=> (mmul f0 |10>)
+[[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
+qbitos.core=> 
+
+qbitos.core=> (mmul f1 |00>)
+[[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
+qbitos.core=> (mmul f1 |10>)
+[[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
+qbitos.core=> 
+
+qbitos.core=> (mmul f2 |00>)
+[[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
+qbitos.core=> (mmul f2 |10>)
+[[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
+qbitos.core=> 
+
+qbitos.core=> (mmul f3 |00>)
+[[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
+qbitos.core=> (mmul f3 |10>)
+[[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
+qbitos.core=> 
+```
+Using classical operations, the only way we have to tell whether both images are equal or distinct is to have the operator applied to each of the input vectors, and compare the results. But quantum computation gives you another approach. For the rest of the exercise we will use a variable `Uf` containing a random function from the set shown above.
+
+Let's prepaire our state using the common quantum computing standard trick: prepairing the state in a superposition. In order to do this, we use the Hadamar operator in our initial register, before applying the operator:
+```
+qbitos.core=> (mmul Uf H0 |10>)
+[[[0.0 0.0]] [[0.7071067811865475 0.0]] [[-0.7071067811865475 0.0]] [[0.0 0.0]]]
+qbitos.core=> 
+```
+Measuring this value will get us one of the possible outcomes for the operators, but this will still give os no information whatsoever about it being constant. In order to get more info, we will apply some more unitary operators to our vector (you can find the theoretical demonstration in the book, Section 2.2).
+```
+qbitos.core=> (mmul H0 Uf H0H1 X0X1 |00>)
+[[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=> 
+```
+What have we gained with this approach? Let's apply our formula to each one of the possible functions, to know more about our new approach:
+```
+qbitos.core=> (mmul H0 f0 H0H1 X0X1 |00>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.7071067811865474 0.0]] [[-0.7071067811865474 0.0]]]
+qbitos.core=> (mmul H0 f1 H0H1 X0X1 |00>)
+[[[0.7071067811865474 0.0]] [[-0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=> (mmul H0 f2 H0H1 X0X1 |00>)
+[[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=> (mmul H0 f3 H0H1 X0X1 |00>)
+[[[0.0 0.0]] [[0.0 0.0]] [[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]]]
+qbitos.core=> 
+```
+What we can see in the outputs for each of the functions is that, even when the output bit is uncertain, the most significant bit (i.e.: the input bit) clearly sepparates the different outputs: if and only if the input bit is |1> (in the modified state) is the state constant. Thus, in our example, even if we don't know what the real function is (and we don't even know its value for any input), we know it must be f1 or f2, as it's input bit is clearly |0>.
+
+This example shows some of the most interesting characteristics of the quantum computation: how we can extract relational information from our state, even when we can't extract any deterministic data from it.
 
 
