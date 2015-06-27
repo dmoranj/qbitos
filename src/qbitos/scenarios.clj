@@ -20,3 +20,19 @@
   (defoperator X0X1 2)
   (defoperator H0 2)
   )
+
+
+(defn createFa [a bits]
+  (let [binaryExpansion (Integer/toBinaryString a)
+        indexes (range (count binaryExpansion))]
+    (create-operator (reduce #(if (= (second %2) \1)
+               (str %1 (str "X" (first %2)))
+               %1
+               ) "" (zipmap indexes binaryExpansion))
+    bits))
+  )
+
+
+(defn loadBernsteinVazirani [a bits]
+  (def fx (createFa a))
+  )

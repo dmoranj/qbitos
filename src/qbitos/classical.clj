@@ -50,15 +50,18 @@
       \| `(def ~x (apply tensorp (map #(if (= (str %) "0") |0> |1>) ~bits)))
       \< `(def ~x (trans (apply tensorp (map #(if (= (str %) "0") |0> |1>) ~bits)))))))
 
-(defmacro defoperator[x n]
-  (let [operators (vec (map symbol (.split (str x) "\\d+")))
+(defn create-operator [x n]
+  (let [operators (vec (map #(eval (symbol %)) (.split (str x) "\\d+")))
         indices (vec (map #(Integer/parseInt %) (rest (.split (str x) "\\D+"))))
         operatorList (partition 2 (interleave operators indices))
         initial (vec (repeat n (ident 2)))
         addOperator (fn [list [op index]] (assoc list index op))
-        matrix (reduce addOperator initial operatorList)
-        ]
-    `(def ~x (apply tensorp ~matrix))))
+        matrix (reduce addOperator initial operatorList)]
+    (apply tensorp matrix)))
+
+(defmacro defoperator[x n]
+  (let [operator (create-operator (str x) n)]
+    `(def ~x ~operator)))
 
 (defmacro defcij[i j n]
   (let [opX (symbol (str "X" j))
