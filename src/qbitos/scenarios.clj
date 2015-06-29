@@ -34,5 +34,4 @@
 
 
 (defn loadBernsteinVazirani [a bits]
-  (def fx (createFa a))
-  )
+  (def fx (createFa a bits)))

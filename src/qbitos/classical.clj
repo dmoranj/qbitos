@@ -75,3 +75,6 @@
                          (->> ~opX (msum ~unit) (cmul [0.5 0]))
                          (->> ~opX (cmul [-1 0]) (msum ~unit) (mmul ~opZ) (cmul [0.5 0])))))))
 
+(defn generate-vectors [n]
+
+  )
