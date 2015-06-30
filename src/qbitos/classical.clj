@@ -61,19 +61,22 @@
 
 (defmacro defoperator[x n]
   (let [operator (create-operator (str x) n)]
-    `(def ~x ~operator)))
+    `(def ~x ~operator)
+    ))
+
+(defn createCij[i j n]
+  (let [opX (create-operator (str "X" j) n)
+        opZ (create-operator (str "Z" i) n)
+        unit (ident (int (Math/pow 2 n)))]
+     (msum
+        (->> opX (msum unit) (cmul [0.5 0]))
+        (->> opX (cmul [-1 0]) (msum unit) (mmul opZ) (cmul [0.5 0])))))
+
 
 (defmacro defcij[i j n]
-  (let [opX (symbol (str "X" j))
-        opZ (symbol (str "Z" i))
-        unit (ident (int (Math/pow 2 n)))
-        operator-name (symbol (str "C-" i j))]
-  `(do
-     (defoperator ~opX ~n)
-     (defoperator ~opZ ~n)
-     (def ~operator-name (msum
-                         (->> ~opX (msum ~unit) (cmul [0.5 0]))
-                         (->> ~opX (cmul [-1 0]) (msum ~unit) (mmul ~opZ) (cmul [0.5 0])))))))
+  (let [operator-name (symbol (str "C-" i j))
+        operator (createCij i j n)]
+    `(def ~operator-name ~operator)))
 
 (defn generate-vectors [n]
 

@@ -24,13 +24,11 @@
 
 (defn createFa [a bits]
   (let [binaryExpansion (Integer/toBinaryString a)
-        indexes (range (count binaryExpansion))]
-    (create-operator (reduce #(if (= (second %2) \1)
-               (str %1 (str "X" (first %2)))
-               %1
-               ) "" (zipmap indexes binaryExpansion))
-    bits))
-  )
+        leadingZeros (take (- bits (count binaryExpansion)) (repeat \0))
+        indexes (range bits)
+        bitList (partition 2 (interleave indexes (concat leadingZeros binaryExpansion)))]
+    (apply mmul (map #(apply createCij [(first %) (dec bits) bits]) (filter #(= (second %) \1) bitList)))
+  ))
 
 
 (defn loadBernsteinVazirani [a bits]
