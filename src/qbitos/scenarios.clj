@@ -20,10 +20,11 @@
 
 (defn createFa [a bits]
   (let [binaryExpansion (Integer/toBinaryString a)
-        leadingZeros (take (- bits (count binaryExpansion)) (repeat \0))
+        leadingZeros (take (- (dec bits) (count binaryExpansion)) (repeat \0))
         indexes (range bits)
         bitList (partition 2 (interleave indexes (concat leadingZeros binaryExpansion)))]
-    (apply mmul (map #(apply createCij [(first %) (dec bits) bits]) (filter #(= (second %) \1) bitList)))))
+    (apply mmul (map #(apply createCij [(first %) (dec bits) bits]) (filter #(= (second %) \1) bitList)))
+    ))
 
 (defn loadBernsteinVazirani [a bits]
   (def fx (createFa a bits)))
