@@ -5,7 +5,6 @@
 (use 'qbitos.complex)
 
 (defn loadDeutch []
-  (generate-vectors 2)
   (defoperator X1 2)
 
   (def f0 (ident 4))
