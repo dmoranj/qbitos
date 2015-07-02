@@ -298,6 +298,19 @@ qbitos.core=> C-12
 ]
 qbitos.core=> 
 ```
+#### (generate-vectors bits)
+This function defines all the bra and ket vectors for the selected number of bits (using the `defbits` function), so they can be referred without being explicitly declared.
+```
+qbitos.core=> (generate-vectors 3)
+#'qbitos.core/<111|
+qbitos.core=> <101|
+[[[0 0] [0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0]]]
+qbitos.core=> |100>
+[[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]] [[0 0]] [[0 0]]]
+qbitos.core=> |110>
+[[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]]]
+qbitos.core=> 
+```
 
 ## Exercises
 
@@ -327,7 +340,8 @@ First of all, let's try to get an idea about the problem using classical computa
 ```
 qbitos.core=> (loadDeutch)
 #'qbitos.scenarios/H0
-qbitos.core=> 
+qbitos.core=> (generate-vectors 2)
+#'qbitos.core/<11|
 ```
 This will load some global variables that will be useful during this exercises. We can start by applying the different functions to each of the four possible input values, to see their possible outcomes:
 ```
@@ -385,4 +399,19 @@ What we can see in the outputs for each of the functions is that, even when the 
 
 This example shows some of the most interesting characteristics of the quantum computation: how we can extract relational information from our state, even when we can't extract any deterministic data from it.
 
+### Exercise 2. The Bernstein-Vazirani problem
 
+This is the problem's description:
+
+> Imagine a quantum computing device with an input register of n qbits and an output register of one. Let a be an
+> unsigned integer less than 2^n. We define f(x) as the following:
+>
+>     f(x) = a0·x0 + a1·x1 + .... an·xn
+>
+> where all the operations are modulo-2 bit operations. Suppose our quantum device computes f(x). How many times should
+> we call our quantum device in order to guess a?
+
+Classicaly, the solution typically involves n calls. A strategy could be making one call with each power of two below 2^n.
+As any power of two has only one bit with value `1`, each call will determine whether that same bit is active in the value
+a or not. So, making the full n calls we will have the exact bit representation of a. Surprisingly, we will see that, using
+quantum computing tricks, the total number of calls can be reduced to 1, for any n.
