@@ -75,6 +75,17 @@
                          (->> ~opX (msum ~unit) (cmul [0.5 0]))
                          (->> ~opX (cmul [-1 0]) (msum ~unit) (mmul ~opZ) (cmul [0.5 0])))))))
 
-(defn generate-vectors [n]
+(defn generate-bits [n bits]
+  (let [binary-expansion (Integer/toBinaryString n)
+        leading-zeroes (- bits (count binary-expansion))]
+    (str (reduce str (take leading-zeroes (repeat "0"))) binary-expansion)))
 
-  )
+
+(defmacro generate-vectors [bits]
+  (conj
+    (for [x (range (Math/pow 2 bits))
+          :let [ bra (symbol (str "|" (generate-bits x bits) ">"))
+                 ket (symbol (str "<" (generate-bits x bits) "|"))]]
+      `(defbits ~bra)
+    )
+    `do))

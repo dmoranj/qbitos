@@ -5,10 +5,7 @@
 (use 'qbitos.complex)
 
 (defn loadDeutch []
-  (defbits |00>)
-  (defbits |01>)
-  (defbits |10>)
-  (defbits |11>)
+  (generate-vectors 2)
   (defoperator X1 2)
 
   (def f0 (ident 4))
@@ -23,14 +20,13 @@
 
 
 (defn createFa [a bits]
-  (let [binaryExpansion (Integer/toBinaryString a)
-        indexes (range (count binaryExpansion))]
+  (let [binary-number (generate-bits a bits)
+        indexes (range (count binary-number))]
     (create-operator (reduce #(if (= (second %2) \1)
                (str %1 (str "X" (first %2)))
                %1
-               ) "" (zipmap indexes binaryExpansion))
-    bits))
-  )
+               ) "" (zipmap indexes binary-number))
+    bits)))
 
 
 (defn loadBernsteinVazirani [a bits]
