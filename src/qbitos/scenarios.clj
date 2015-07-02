@@ -5,10 +5,6 @@
 (use 'qbitos.complex)
 
 (defn loadDeutch []
-  (defbits |00>)
-  (defbits |01>)
-  (defbits |10>)
-  (defbits |11>)
   (defoperator X1 2)
 
   (def f0 (ident 4))
@@ -27,9 +23,7 @@
         leadingZeros (take (- bits (count binaryExpansion)) (repeat \0))
         indexes (range bits)
         bitList (partition 2 (interleave indexes (concat leadingZeros binaryExpansion)))]
-    (apply mmul (map #(apply createCij [(first %) (dec bits) bits]) (filter #(= (second %) \1) bitList)))
-  ))
-
+    (apply mmul (map #(apply createCij [(first %) (dec bits) bits]) (filter #(= (second %) \1) bitList)))))
 
 (defn loadBernsteinVazirani [a bits]
   (def fx (createFa a bits)))

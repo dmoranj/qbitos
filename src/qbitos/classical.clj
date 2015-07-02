@@ -78,6 +78,16 @@
         operator (createCij i j n)]
     `(def ~operator-name ~operator)))
 
-(defn generate-vectors [n]
+(defn generate-bits [n bits]
+  (let [binary-expansion (Integer/toBinaryString n)
+        leading-zeroes (- bits (count binary-expansion))]
+    (str (reduce str (take leading-zeroes (repeat "0"))) binary-expansion)))
 
-  )
+(defmacro generate-vectors [bits]
+  (let [define-bras (for [x (range (Math/pow 2 bits))
+          :let [ bra (symbol (str "|" (generate-bits x bits) ">"))]]
+              `(defbits ~bra))
+        define-kets (for [x (range (Math/pow 2 bits))
+          :let [ ket (symbol (str "<" (generate-bits x bits) "|"))]]
+              `(defbits ~ket))]
+    `(do ~@define-bras ~@define-kets)))
