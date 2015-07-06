@@ -450,3 +450,10 @@ This may be a little difficult to read, but conceptually, is the same classical 
 
 As we can see the output register (the last qbit) is 1 for the first and the last entries (the ones having the most and least significant qbits with value 1), so a must have just those two qbits on, i.e. it must be 101, or 5 (as we expected).
 
+Using quabtym computing operators, we can perform the following trick:
+```
+qbitos.core=> (mmul H0H1H2H3 fx H0H1H2H3 |0001>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[-1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.9999999999999996 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]]]
+qbitos.core=>
+```
+First of all, concerning the result: we can see that there is a single bit in a state "near 1" (the 11th bit) and several bits in a state "near 0" (due to the discrete nature of the simulation). This is the tensor form of the |1011> qbit vector. As we can see, the input state has changed to the binary value '101', i.e, the decimal number 5, that is the value of a. We have discovered the value of a in a single operation, instead of the **n** operations needed in its classical counterpart.
