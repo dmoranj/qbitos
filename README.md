@@ -46,7 +46,7 @@ qbitos.core=> (ident 3)
 [[0 0] [1 0] [0 0]]
 [[0 0] [0 0] [1 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 As you can see, there are three rows, with real parts of the main diagonal with value one and the rest of the elements with zero value.
 
@@ -61,7 +61,7 @@ qbitos.core=> (ident 3)
 [[0 0] [1 0] [0 0]]
 [[0 0] [0 0] [1 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (null r)
@@ -73,7 +73,7 @@ qbitos.core=> (null 3)
 [[0 0] [0 0] [0 0]]
 [[0 0] [0 0] [0 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (inv r)
@@ -104,10 +104,10 @@ qbitos.core=> (def CUA3 [[[5 2][6 0]][[7 -9][8 0]]])
 #'qbitos.core/CUA3
 qbitos.core=> (trans CUA3)
 [
-[[5 2] [7 -9]] 
+[[5 2] [7 -9]]
 [[6 0] [8 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (msum m1..mn)
@@ -119,7 +119,7 @@ qbitos.core=> (msum (ident 3) (ident 3) (ident 3))
 [[0 0] [3 0] [0 0]]
 [[0 0] [0 0] [3 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (mmul m1..mn)
@@ -131,7 +131,7 @@ qbitos.core=> (def CUA2 [[[5 0][6 0]][[7 0][8 0]]])
 #'qbitos.core/CUA2
 qbitos.core=> (mmul CUA1 CUA2)
 [[[19 0] [22 0]] [[43 0] [50 0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (cmul c m)
@@ -143,7 +143,7 @@ qbitos.core=> (cmul [6 2] (ident 3))
 [[0 0] [6 2] [0 0]]
 [[0 0] [0 0] [6 2]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (conjugate c)
@@ -152,7 +152,7 @@ Returns the conjugate of the complex number `c`.
 ```
 qbitos.core=> (conjugate [4 -2])
 [4 2]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (mul c1 c2)
@@ -161,7 +161,7 @@ Multiplies two complex numbers.
 ```
 qbitos.core=> (mul [2 0] [-3 1])
 [-6 2]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (sum c1 c2)
@@ -170,7 +170,7 @@ Add to complex numbers together.
 ```
 qbitos.core=> (sum [2 0] [-3 1])
 [-1 1]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (tensorp m1..mn)
@@ -179,18 +179,18 @@ Calculates the tensor product of all the matrices passed as a parameter.
 ```
 qbitos.core=> (tensorp (ident 2) (inv 2))
 [
-[[0 0] [1 0] [0 0] [0 0]] 
-[[1 0] [0 0] [0 0] [0 0]] 
-[[0 0] [0 0] [0 0] [1 0]] 
+[[0 0] [1 0] [0 0] [0 0]]
+[[1 0] [0 0] [0 0] [0 0]]
+[[0 0] [0 0] [0 0] [1 0]]
 [[0 0] [0 0] [1 0] [0 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 ### The Quantum Computing API
 This API contains functions and constants that may be useful in dealing with examples and exercises related to the Quantum Computing subject (Constants are shown as identifiers and functions between parentheses and with their parameters). Some constants are shown grouped, for brevity.
 
-This part of the API aims to offer an interface as similar as Dirac's notation as possible. To that extent, it offers bra and ket definition and operations with bras and kets, as well as functions to globally define matrix operators that will be used later in designing quantum gates. 
+This part of the API aims to offer an interface as similar as Dirac's notation as possible. To that extent, it offers bra and ket definition and operations with bras and kets, as well as functions to globally define matrix operators that will be used later in designing quantum gates.
 
 #### |0>
 The representation of the bit 0 in a vectorial classical base.
@@ -198,7 +198,7 @@ The representation of the bit 0 in a vectorial classical base.
 ```
 qbitos.core=> |0>
 [[[1 0]] [[0 0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### |1>
@@ -218,12 +218,12 @@ qbitos.core=> (defbits |0100>)
 #'qbitos.core/|0100>
 qbitos.core=> |0100>
 [[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]]]
-qbitos.core=> 
+qbitos.core=>
 qbitos.core=> (defbits <0100|)
 #'qbitos.core/<0100|
 qbitos.core=> <0100|
 [[[0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0] [0 0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 #### X Y and Z
 Matrix representation of the range 2 Pauli matrices.
@@ -244,7 +244,7 @@ qbitos.core=> Z
 [[1 0] [0 0]]
 [[0 0] [-1 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### H
@@ -256,7 +256,7 @@ qbitos.core=> H
 [[0.7071067811865475 0.0] [0.7071067811865475 0.0]]
 [[0.7071067811865475 0.0] [-0.7071067811865475 0.0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (defoperator op n)
@@ -276,7 +276,7 @@ qbitos.core=> X1Z2
 [[0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0] [0 0]]
 [[0 0] [0 0] [0 0] [0 0] [0 0] [-1 0] [0 0] [0 0]]
 ]
-qbitos.core=> 
+qbitos.core=>
 ```
 
 #### (defcij i j n)
@@ -296,7 +296,20 @@ qbitos.core=> C-12
 [[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0]]
 [[0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0]]
 ]
-qbitos.core=> 
+qbitos.core=>
+```
+#### (generate-vectors bits)
+This function defines all the bra and ket vectors for the selected number of bits (using the `defbits` function), so they can be referred without being explicitly declared.
+```
+qbitos.core=> (generate-vectors 3)
+#'qbitos.core/<111|
+qbitos.core=> <101|
+[[[0 0] [0 0] [0 0] [0 0] [0 0] [1 0] [0 0] [0 0]]]
+qbitos.core=> |100>
+[[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]] [[0 0]] [[0 0]]]
+qbitos.core=> |110>
+[[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[1 0]] [[0 0]]]
+qbitos.core=>
 ```
 
 ## Exercises
@@ -306,7 +319,7 @@ qbitos.core=>
 The Deutch problems is one of the easiest exercises showing the power of the quantum computating algorithms in solving problems more efficiently than its classical counterparts. This is the problem's description:
 
 > Imagine a black box quantum computing device that works as a 2-qbit machine that applies
-> a certain **Uf** transformation to the input and output registers (the first and second 
+> a certain **Uf** transformation to the input and output registers (the first and second
 > qbits respectively). Due to the discrete nature of the bits there are only four possible
 > Uf operators that take the input qbit into an output qbit, i.e:
 
@@ -317,8 +330,8 @@ The Deutch problems is one of the easiest exercises showing the power of the qua
 | f2   | CNOT-01 · X0    | [01>    | [10>    |
 | f3   | X0              | [01>    | [11>    |
 
-> In the table, the operator is applied to a set of two QBits [io>, returning another set 
-> of two qbits, where both the input and output registers can be modified. The problem is 
+> In the table, the operator is applied to a set of two QBits [io>, returning another set
+> of two qbits, where both the input and output registers can be modified. The problem is
 > the following: how can we determine if a function inside the black box is constant,
 > f(0)= f(1), or not constant, f(0) != f(1), without opening it, using the minimum number
 > of operations.
@@ -327,7 +340,8 @@ First of all, let's try to get an idea about the problem using classical computa
 ```
 qbitos.core=> (loadDeutch)
 #'qbitos.scenarios/H0
-qbitos.core=> 
+qbitos.core=> (generate-vectors 2)
+#'qbitos.core/<11|
 ```
 This will load some global variables that will be useful during this exercises. We can start by applying the different functions to each of the four possible input values, to see their possible outcomes:
 ```
@@ -335,25 +349,25 @@ qbitos.core=> (mmul f0 |00>)
 [[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
 qbitos.core=> (mmul f0 |10>)
 [[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
-qbitos.core=> 
+qbitos.core=>
 
 qbitos.core=> (mmul f1 |00>)
 [[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
 qbitos.core=> (mmul f1 |10>)
 [[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
-qbitos.core=> 
+qbitos.core=>
 
 qbitos.core=> (mmul f2 |00>)
 [[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
 qbitos.core=> (mmul f2 |10>)
 [[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
-qbitos.core=> 
+qbitos.core=>
 
 qbitos.core=> (mmul f3 |00>)
 [[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
 qbitos.core=> (mmul f3 |10>)
 [[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 Using classical operations, the only way we have to tell whether both images are equal or distinct is to have the operator applied to each of the input vectors, and compare the results. But quantum computation gives you another approach. For the rest of the exercise we will use a variable `Uf` containing a random function from the set shown above.
 
@@ -361,13 +375,13 @@ Let's prepaire our state using the common quantum computing standard trick: prep
 ```
 qbitos.core=> (mmul Uf H0 |10>)
 [[[0.0 0.0]] [[0.7071067811865475 0.0]] [[-0.7071067811865475 0.0]] [[0.0 0.0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 Measuring this value will get us one of the possible outcomes for the operators, but this will still give os no information whatsoever about it being constant. In order to get more info, we will apply some more unitary operators to our vector (you can find the theoretical demonstration in the book, Section 2.2).
 ```
 qbitos.core=> (mmul H0 Uf H0H1 X0X1 |00>)
 [[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 What have we gained with this approach? Let's apply our formula to each one of the possible functions, to know more about our new approach:
 ```
@@ -379,10 +393,67 @@ qbitos.core=> (mmul H0 f2 H0H1 X0X1 |00>)
 [[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
 qbitos.core=> (mmul H0 f3 H0H1 X0X1 |00>)
 [[[0.0 0.0]] [[0.0 0.0]] [[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]]]
-qbitos.core=> 
+qbitos.core=>
 ```
 What we can see in the outputs for each of the functions is that, even when the output bit is uncertain, the most significant bit (i.e.: the input bit) clearly sepparates the different outputs: if and only if the input bit is |1> (in the modified state) is the state constant. Thus, in our example, even if we don't know what the real function is (and we don't even know its value for any input), we know it must be f1 or f2, as it's input bit is clearly |0>.
 
 This example shows some of the most interesting characteristics of the quantum computation: how we can extract relational information from our state, even when we can't extract any deterministic data from it.
 
+### Exercise 2. The Bernstein-Vazirani problem
 
+This is the problem's description:
+
+> Imagine a quantum computing device with an input register of n qbits and an output register of one. Let a be an
+> unsigned integer less than 2^n. We define f(x) as the following:
+>
+>     f(x) = a0·x0 + a1·x1 + .... an·xn
+>
+> where all the operations are modulo-2 bit operations. Suppose our quantum device computes f(x). How many times should
+> we call our quantum device in order to guess a?
+
+Classicaly, the solution typically involves n calls. A strategy could be making one call with each power of two below 2^n.
+As any power of two has only one bit with value `1`, each call will determine whether that same bit is active in the value
+a or not. So, making the full n calls we will have the exact bit representation of a. Surprisingly, we will see that, using
+quantum computing tricks, the total number of calls can be reduced to 1, for any n.
+
+Let's try this classical approach, in order to understand the problem better. First of all, we define f(x), using some auxiliar functions:
+```
+qbitos.core=> (loadBernsteinVazirani 5 4)
+#'qbitos.scenarios/fx
+qbitos.core=> (generate-vectors 4)
+#'qbitos.core/<1111|
+qbitos.core=>
+```
+Here, we are using the `loadBernsteinVazirani` function to define `fx` with the given parameters, i.e.: a 4 qbit unitary operator that computes f(x) in the last qbit, using the first three as the input register (being `a = 5` in this case). We also define all the possible bras and kets in the 4 qbits space, as we will use them in our calculations.
+
+We can now start to guess the bits in the `a` number (and it better ends up being 5):
+```
+qbitos.core=> (mmul fx |1000>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=>
+
+qbitos.core=> (mmul fx |0100>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=>
+
+qbitos.core=> (mmul fx |0010>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=>
+```
+This may be a little difficult to read, but conceptually, is the same classical algorithm we described above. In any of the iterations we are applying (via a matrix multiplication) the unitary operator f(x) to a register composed of four qbits: three qbits for the input and one single qbit for the output. In order to guess the number, we try with the three powers of two below 2^3, that is: 2^2 = 4, 2^1  = 2 and 2^0 = 1. The results are given as the tensor product of the three bits; the corresponding bit representations of the answers are the following:
+
+| x      | f(x)   |
+|:------ |:------ |
+| [1000> | [1001> |
+| [0100> | [0100> |
+| [0010> | [0011> |
+
+As we can see the output register (the last qbit) is 1 for the first and the last entries (the ones having the most and least significant qbits with value 1), so a must have just those two qbits on, i.e. it must be 101, or 5 (as we expected).
+
+Using quabtym computing operators, we can perform the following trick:
+```
+qbitos.core=> (mmul H0H1H2H3 fx H0H1H2H3 |0001>)
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[-1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.9999999999999996 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]]]
+qbitos.core=>
+```
+First of all, concerning the result: we can see that there is a single bit in a state "near 1" (the 11th bit) and several bits in a state "near 0" (due to the discrete nature of the simulation). This is the tensor form of the |1011> qbit vector. As we can see, the input state has changed to the binary value '101', i.e, the decimal number 5, that is the value of a. We have discovered the value of a in a single operation, instead of the **n** operations needed in its classical counterpart.
