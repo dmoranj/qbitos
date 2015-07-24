@@ -22,10 +22,10 @@
 (defn GnSub [n N]
   {:pre [((Gn N) n)]
    }
-  (take-while #(not= % 1) (getPowers n N)))
+  (conj (set (take-while #(not= % 1) (getPowers n N))) 1))
 
 (defn getOrder [n N]
   {:pre [((Gn N) n)]
    }
-  (inc (count (GnSub n N))))
+  (count (GnSub n N)))
 
