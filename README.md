@@ -559,4 +559,10 @@ qbitos.core=> b
 35N
 qbitos.core=> 
 ```
-
+Now, Alice can send *b* to Bob, over the same public channel, being confident that only him will be able to decode it. To make the decodification, Bob calculates, using the equations 6:
+```
+qbitos.core=> (mod (expt b d) N)
+42N
+qbitos.core=> 
+```
+That, as we can see, is the original message, by Alice.
