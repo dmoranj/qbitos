@@ -29,3 +29,6 @@
    }
   (count (GnSub n N)))
 
+(defn mulInverse [n N]
+  {:pre [((Gn N) n)]}
+  (first (filter #(= 1 (mod (* n %) N)) (Gn N))))
