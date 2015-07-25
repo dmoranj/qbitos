@@ -566,3 +566,38 @@ qbitos.core=> (mod (expt b d) N)
 qbitos.core=> 
 ```
 That, as we can see, is the original message, by Alice.
+
+How could an eavesdropper make use of an efficient factorization algorithm to retrieve Alice's information, *a*? Imagine the RSA parameters are the ones described below:
+```
+qbitos.core=> p
+23N
+qbitos.core=> q
+31N
+qbitos.core=> c
+601N
+qbitos.core=> d
+481N
+qbitos.core=> a
+420N
+qbitos.core=> b
+141N
+```
+Were the eavesdropper able to efficiently calculate the order, *r*, of b in Gpq, it will have guessed the order of *a* (as both are the same). Since c was chosen to have no factors in common with (p-1)(q-1) and r divides the order (p-1)(q-1) of Gpq (as the order of any subgorup do to its group), c is congruent modulo r to a member c' of Gr, that has an inverse d', that is, in turn a modulo r inverse of c:
+```
+qbitos.core=> (def dp (mulInverse (mod c r) r))
+#'qbitos.core/dp
+qbitos.core=> dp
+151N
+qbitos.core=> 
+```
+The following chain then follows:
+```
+b^d' ≡a^cd' =a^1+mr =a (􏰇ar􏰈m ≡a(modpq).
+```
+So, using the values in the example:
+```
+qbitos.core=> (mod (expt b dp) N)
+420N
+qbitos.core=> 
+```
+That is the original value selected by Alice; so, being able to factor b (and using this ability to calculate the order), the eavesdropper has been able to guess *a* without any knowledge of the private key *c* or the original prime numbers.
