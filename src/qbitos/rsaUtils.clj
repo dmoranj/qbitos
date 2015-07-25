@@ -3,6 +3,7 @@
 
 
 (use 'clojure.set)
+(use 'clojure.math.numeric-tower)
 
 
 (defn divisors [n]
@@ -30,5 +31,5 @@
   (count (GnSub n N)))
 
 (defn mulInverse [n N]
-  {:pre [((Gn N) n)]}
-  (first (filter #(= 1 (mod (* n %) N)) (Gn N))))
+  {:pre [((Gn N) (mod n N))]}
+  (bigint (first (filter #(= 1N (mod (* n %) N)) (Gn N)))))
