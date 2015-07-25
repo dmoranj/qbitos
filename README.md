@@ -487,7 +487,7 @@ a ^ [1 + s(q−1)(p−1)] ≡ a (mod pq).
 
 4. Let c be an integer having no factor in common with (p − 1)(q − 1), so it must be included in G(p-1)(p-1), and therefore have an inverse d satisfying:
 ```
-cd ≡ 1 􏰇m od(p−1)(q −1)􏰈
+cd ≡ 1􏰇(mod (p−1)(q −1))
 ```
 Meaning that there must be an integer *s* so that the following equation follows:
 ```
