@@ -592,7 +592,7 @@ qbitos.core=>
 ```
 The following chain then follows:
 ```
-b^d' ≡a^cd' =a^1+mr =a (􏰇ar􏰈m ≡a(modpq).
+b^d' ≡a^cd' =a^1+mr =a * (a^r)^m ≡a (mod pq)
 ```
 So, using the values in the example:
 ```
