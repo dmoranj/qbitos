@@ -457,3 +457,56 @@ qbitos.core=> (mmul H0H1H2H3 fx H0H1H2H3 |0001>)
 qbitos.core=>
 ```
 First of all, concerning the result: we can see that there is a single bit in a state "near 1" (the 11th bit) and several bits in a state "near 0" (due to the discrete nature of the simulation). This is the tensor form of the |1011> qbit vector. As we can see, the input state has changed to the binary value '101', i.e, the decimal number 5, that is the value of a. We have discovered the value of a in a single operation, instead of the **n** operations needed in its classical counterpart.
+
+
+### Exercise 3. Shor's factoring algorithm and the RSA algorithm
+
+In this example we will put to good use our knowledge of quantum computing, by using Shor's efficient number factoring algorithm to break the RSA encryption protocol. To this extent, we will show a brief introduction of RSA, followed by an explanation of Shor's algorithm, before getting to the point of the decryption mechanisms.
+
+In order to understand the following sections, you will need some acquaintance with Group Theory, along with basic arithmetic and a good understanding of the Quantum Computing features we have used so far. 
+
+#### A brief explanation of the RSA protocol
+
+RSA is a widely used encryption protocol that makes use of an empirical evidence: with the current computer power and algorithms, it's impossible to efficiently factor a number into its prime factors. This impossibility is used to create an asymmetric public/private key protocol that can be used to securily exchange information. All the algorithm is based on some facts of arithmetic and Group Theory that are summarized here:
+
+1. Given *p* a prime number and *a < p* the following equation holds:
+```
+a^(p-1) ≡ 1 (mod p) 
+```
+This relation holds also for any other *a* not divisible by p. Its commonly known as the *little Fermat theorem*.
+
+2. RSA makes use of a version of the little Fermat theorem, that states the following:
+```
+a ^ [(q−1)(p−1)] ≡ 1 (mod pq)
+```
+
+3. Taking an integral power *s* and multiplying both sides by *a* we get: 
+```
+a ^ [1 + s(q−1)(p−1)] ≡ a (mod pq).
+```
+
+4. Let c be an integer having no factor in common with (p − 1)(q − 1), so it must be included in G(p-1)(p-1), and therefore have an inverse d satisfying:
+```
+cd ≡ 1 􏰇m od(p−1)(q −1)􏰈
+```
+Meaning that there must be an integer *s* so that the following equation follows:
+```
+c d = 1 + s ( p − 1)(q − 1)
+```
+
+5. Any integer must, then, satisfy:
+```
+a^cd ≡ a (mod pq).
+```
+
+6. So, given the following:
+```
+b ≡ a^c (mod pq)
+```
+the next equation follows:
+```
+b^d ≡ a (mod pq)
+```
+
+
+
