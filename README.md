@@ -469,6 +469,7 @@ In order to understand the following sections, you will need some acquaintance w
 
 RSA is a widely used encryption protocol that makes use of an empirical evidence: with the current computer power and algorithms, it's impossible to efficiently factor a number into its prime factors. This impossibility is used to create an asymmetric public/private key protocol that can be used to securily exchange information. All the algorithm is based on some facts of arithmetic and Group Theory that are summarized here:
 
+##### Equations summary
 1. Given *p* a prime number and *a < p* the following equation holds:
 ```
 a^(p-1) ≡ 1 (mod p) 
@@ -508,5 +509,95 @@ the next equation follows:
 b^d ≡ a (mod pq)
 ```
 
+##### RSA Practical examples
 
+The following should serve to clarify how the RSA works and the role that factoring plays in its security. The example will be executed using some utilities in the Qbitos library. To make the example easy to read, we will use small numbers, so the full operation can be followed easily step by step. As you can see, all the operations will be using `bigint` types. Before starting using the examples, Clojure's `math.numeric.tower` library must be imported.
+```
+qbitos.core=> (use 'clojure.math.numeric-tower)
+nil
+```
 
+Imagine Bob wants to stablish a secure channel for Alice to communicate with him. In order to do it, he selects two large prime numbers, p and q. He gives alice two public values: N = p*q and c, a large encoding number picked up from the group G(p-1)(q-1) (you can see the group itself in the example).
+```
+qbitos.core=> (use 'qbitos.rsaUtils)
+nil
+qbitos.core=> (def p 7N)
+#'qbitos.core/p
+qbitos.core=> (def q 13N)
+#'qbitos.core/q
+qbitos.core=> (def N (* q p))
+#'qbitos.core/N
+qbitos.core=> 
+
+qbitos.core=> 
+
+qbitos.core=> (Gn (* (dec p) (dec q)))
+#{65 7 59 1 55 31 13 41 43 61 29 25 17 23 47 35 19 11 5 53 67 71 37 49}
+qbitos.core=> (def c 29N)
+#'qbitos.core/c
+qbitos.core=> 
+```
+Knowing *p* and *q*, Bob is also able to calculate (p-1) and (q-1) and so, the multiplicative inverse of c in G(p-1)(q-1), that will be called d.
+```
+qbitos.core=> (def d (mulInverse c (* (dec p) (dec q))))
+#'qbitos.core/d
+qbitos.core=> d
+5N
+qbitos.core=> 
+```
+Once Alice has the public information given by Bob (*N* and *c*), she can codify the information she wants to send into a big integer, lesser than N, that will be called *a*. She, then, codifies it using the following formula:
+```
+b ≡ ac (mod pq)
+```
+Generating the encrypted message, *b*. Using the REPL:
+```
+qbitos.core=> (def a 42N)
+#'qbitos.core/a
+qbitos.core=> (def b (mod (expt a c) N))
+#'qbitos.core/b
+qbitos.core=> b
+35N
+qbitos.core=> 
+```
+Now, Alice can send *b* to Bob, over the same public channel, being confident that only him will be able to decode it. To make the decodification, Bob calculates, using the equations 6:
+```
+qbitos.core=> (mod (expt b d) N)
+42N
+qbitos.core=> 
+```
+That, as we can see, is the original message, by Alice.
+
+How could an eavesdropper make use of an efficient factorization algorithm to retrieve Alice's information, *a*? Imagine the RSA parameters are the ones described below:
+```
+qbitos.core=> p
+23N
+qbitos.core=> q
+31N
+qbitos.core=> c
+601N
+qbitos.core=> d
+481N
+qbitos.core=> a
+420N
+qbitos.core=> b
+141N
+```
+Were the eavesdropper able to efficiently calculate the order, *r*, of b in Gpq, it will have guessed the order of *a* (as both are the same). Since c was chosen to have no factors in common with (p-1)(q-1) and r divides the order (p-1)(q-1) of Gpq (as the order of any subgorup do to its group), c is congruent modulo r to a member c' of Gr, that has an inverse d', that is, in turn a modulo r inverse of c:
+```
+qbitos.core=> (def dp (mulInverse (mod c r) r))
+#'qbitos.core/dp
+qbitos.core=> dp
+151N
+qbitos.core=> 
+```
+The following chain then follows:
+```
+b^d' ≡a^cd' =a^1+mr =a (􏰇ar􏰈m ≡a(modpq).
+```
+So, using the values in the example:
+```
+qbitos.core=> (mod (expt b dp) N)
+420N
+qbitos.core=> 
+```
+That is the original value selected by Alice; so, being able to factor b (and using this ability to calculate the order), the eavesdropper has been able to guess *a* without any knowledge of the private key *c* or the original prime numbers.
