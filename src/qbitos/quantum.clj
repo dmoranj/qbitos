@@ -1,7 +1,9 @@
-(ns qbitos.classical
+(ns qbitos.quantum
   (:gen-class))
 
+(use 'qbitos.complex)
 (use 'qbitos.classical)
+
 
 (defn log2[x]
   (int (/ (Math/log x) (Math/log 2)))
@@ -30,8 +32,6 @@
 
 (defn measure[state]
   (let [probability-vector (reduce accumulate [ ] (sort-by second (get-probability-vector state)))
-        random-value (Math/random)
+        random-value (* (Math/random) (-> probability-vector last last))
         ]
-    (first (last (take-while #(< (second %) random-value) probability-vector)))))
-
-
+    (str "|" (first (last (take-while #(< (second %) random-value) probability-vector))) ">")))
