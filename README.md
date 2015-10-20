@@ -312,6 +312,28 @@ qbitos.core=> |110>
 qbitos.core=>
 ```
 
+#### (measure state)
+Performs a measure on the state passed as a parameter, following the Born Rule, i.e.: each of the values in the column vector is  taken to be the amplitude of the state represented by the binary expansion of its index. This function calculates the probabilities for each of the entangled states and select one of them randomly based on that probabilities. The result will be the string representation of the collapsed pure state.
+
+The following example shows a typical quantum computing operation, where the 4-bit H operator is applied to the |0000> state vector to get a superposition of all the possible states of 4 bits. Following the Born rule, measuring the resulting state should result in a random pure state with equal probability.
+```
+qbitos.core=> (defbits |0000>)
+#'qbitos.core/|0000>
+qbitos.core=> (defoperator H0H1H2H3 4)
+#'qbitos.core/H0H1H2H3
+qbitos.core=> (def initial (mmul H0H1H2H3 |0000>))
+#'qbitos.core/initial
+qbitos.core=> (measure initial)
+"|0001>"
+qbitos.core=> (measure initial)
+"|0011>"
+qbitos.core=> (measure initial)
+"|0110>"
+qbitos.core=> (measure initial)
+"|0101>"
+qbitos.core=>
+```
+
 ## Exercises
 
 ### Exercise 1. The Deutsch's problem
