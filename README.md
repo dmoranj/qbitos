@@ -312,6 +312,9 @@ qbitos.core=> |110>
 qbitos.core=>
 ```
 
+#### (measure state)
+Performs a measure on the state passed as a parameter, following the Born Rule, i.e.: each of the values in the column vector is  taken to be the amplitude of the state represented by the binary expansion of its index. This function calculates the probabilities for each of the entangled states and select one of them randomly based on that probabilities. The result will be the string representation of the collapsed pure state.
+
 ## Exercises
 
 ### Exercise 1. The Deutsch's problem
