@@ -29,10 +29,19 @@
 (defn matrixToDouble[matrix]
   (vec (map rowToDouble matrix)))
 
+(defn is-jblas-double[c]
+  (= (type c) org.jblas.ComplexDouble))
+
+(defn is-vector[c]
+  (and (= (type c) clojure.lang.PersistentVector) (number? (first c))))
+
+(defn is-matrix[m]
+  (and (= (type m) clojure.lang.PersistentVector) (= (type (first m)) clojure.lang.PersistentVector) ))
+
 ;; Complex Algebra functions
 ;;----------------------------------------------------------------------------------------------
 (defn complex [a b]
-  [a b])
+  (new org.jblas.ComplexDouble (double a) (double b)))
 
 (defn conjugate[a]
   [ (first a) (- (second a))])
