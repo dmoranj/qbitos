@@ -441,7 +441,7 @@ quantum computing tricks, the total number of calls can be reduced to 1, for any
 Let's try this classical approach, in order to understand the problem better. First of all, we define f(x), using some auxiliar functions:
 ```
 qbitos.core=> (loadBernsteinVazirani 5 4)
-#'qbitos.scenarios/fx
+#'qbitos.scenarios/BVx
 qbitos.core=> (generate-vectors 4)
 #'qbitos.core/<1111|
 qbitos.core=>
@@ -450,15 +450,15 @@ Here, we are using the `loadBernsteinVazirani` function to define `fx` with the 
 
 We can now start to guess the bits in the `a` number (and it better ends up being 5):
 ```
-qbitos.core=> (mmul fx |1000>)
+qbitos.core=> (mmul BVx |1000>)
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
 qbitos.core=>
 
-qbitos.core=> (mmul fx |0100>)
+qbitos.core=> (mmul BVx |0100>)
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
 qbitos.core=>
 
-qbitos.core=> (mmul fx |0010>)
+qbitos.core=> (mmul BVx |0010>)
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
 qbitos.core=>
 ```
@@ -474,7 +474,7 @@ As we can see the output register (the last qbit) is 1 for the first and the las
 
 Using quabtym computing operators, we can perform the following trick:
 ```
-qbitos.core=> (mmul H0H1H2H3 fx H0H1H2H3 |0001>)
+qbitos.core=> (mmul H0H1H2H3 BVx H0H1H2H3 |0001>)
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[-1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.9999999999999996 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]]]
 qbitos.core=>
 ```
@@ -485,7 +485,7 @@ First of all, concerning the result: we can see that there is a single bit in a 
 
 In this example we will put to good use our knowledge of quantum computing, by using Shor's efficient number factoring algorithm to break the RSA encryption protocol. To this extent, we will show a brief introduction of RSA, followed by an explanation of Shor's algorithm, before getting to the point of the decryption mechanisms.
 
-In order to understand the following sections, you will need some acquaintance with Group Theory, along with basic arithmetic and a good understanding of the Quantum Computing features we have used so far. 
+In order to understand the following sections, you will need some acquaintance with Group Theory, along with basic arithmetic and a good understanding of the Quantum Computing features we have used so far.
 
 #### A brief explanation of the RSA protocol
 
@@ -494,7 +494,7 @@ RSA is a widely used encryption protocol that makes use of an empirical evidence
 ##### Equations summary
 1. Given *p* a prime number and *a < p* the following equation holds:
 ```
-a^(p-1) ≡ 1 (mod p) 
+a^(p-1) ≡ 1 (mod p)
 ```
 This relation holds also for any other *a* not divisible by p. Its commonly known as the *little Fermat theorem*.
 
@@ -503,7 +503,7 @@ This relation holds also for any other *a* not divisible by p. Its commonly know
 a ^ [(q−1)(p−1)] ≡ 1 (mod pq)
 ```
 
-3. Taking an integral power *s* and multiplying both sides by *a* we get: 
+3. Taking an integral power *s* and multiplying both sides by *a* we get:
 ```
 a ^ [1 + s(q−1)(p−1)] ≡ a (mod pq).
 ```
@@ -549,15 +549,15 @@ qbitos.core=> (def q 13N)
 #'qbitos.core/q
 qbitos.core=> (def N (* q p))
 #'qbitos.core/N
-qbitos.core=> 
+qbitos.core=>
 
-qbitos.core=> 
+qbitos.core=>
 
 qbitos.core=> (Gn (* (dec p) (dec q)))
 #{65 7 59 1 55 31 13 41 43 61 29 25 17 23 47 35 19 11 5 53 67 71 37 49}
 qbitos.core=> (def c 29N)
 #'qbitos.core/c
-qbitos.core=> 
+qbitos.core=>
 ```
 Knowing *p* and *q*, Bob is also able to calculate (p-1) and (q-1) and so, the multiplicative inverse of c in G(p-1)(q-1), that will be called d.
 ```
@@ -565,7 +565,7 @@ qbitos.core=> (def d (mulInverse c (* (dec p) (dec q))))
 #'qbitos.core/d
 qbitos.core=> d
 5N
-qbitos.core=> 
+qbitos.core=>
 ```
 Once Alice has the public information given by Bob (*N* and *c*), she can codify the information she wants to send into a big integer, lesser than N, that will be called *a*. She, then, codifies it using the following formula:
 ```
@@ -579,13 +579,13 @@ qbitos.core=> (def b (mod (expt a c) N))
 #'qbitos.core/b
 qbitos.core=> b
 35N
-qbitos.core=> 
+qbitos.core=>
 ```
 Now, Alice can send *b* to Bob, over the same public channel, being confident that only him will be able to decode it. To make the decodification, Bob calculates, using the equations 6:
 ```
 qbitos.core=> (mod (expt b d) N)
 42N
-qbitos.core=> 
+qbitos.core=>
 ```
 That, as we can see, is the original message, by Alice.
 
@@ -610,7 +610,7 @@ qbitos.core=> (def dp (mulInverse (mod c r) r))
 #'qbitos.core/dp
 qbitos.core=> dp
 151N
-qbitos.core=> 
+qbitos.core=>
 ```
 The following chain then follows:
 ```
@@ -620,6 +620,6 @@ So, using the values in the example:
 ```
 qbitos.core=> (mod (expt b dp) N)
 420N
-qbitos.core=> 
+qbitos.core=>
 ```
 That is the original value selected by Alice; so, being able to factor b (and using this ability to calculate the order), the eavesdropper has been able to guess *a* without any knowledge of the private key *c* or the original prime numbers.
