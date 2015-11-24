@@ -1,12 +1,36 @@
 (ns qbitos.complex
   (:gen-class))
 
+;; JBLAS Conversion Routines
+;;----------------------------------------------------------------------------------------------
+(defn complex-from-array[c]
+  (new org.jblas.ComplexDouble (first c) (second c)))
+
+(defn complex-to-array[c]
+  [(.real c) (.imag c)])
+
+(defn get-real[c]
+  (-> c first double))
+
+(defn get-imaginary[c]
+  (-> c second double))
+
+(defn from-persistent[m]
+  (let [real-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-real %)) m)))
+        imaginary-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-imaginary %)) m)))]
+    (new org.jblas.ComplexDoubleMatrix real-matrix imaginary-matrix)))
+
+(defn to-persistent[m]
+  (vec (map #(vec (map complex-to-array %)) (.toArray2 (from-persistent m)))))
+
 (defn rowToDouble[row]
   (vec (map #(vec (map double %)) row)))
 
 (defn matrixToDouble[matrix]
   (vec (map rowToDouble matrix)))
 
+;; Complex Algebra functions
+;;----------------------------------------------------------------------------------------------
 (defn complex [a b]
   [a b])
 
@@ -110,3 +134,4 @@
 (defn cmul[c a]
   (let [mrow (fn [row] (vec (map #(mul c %) row)))]
     (vec (map mrow a))))
+
