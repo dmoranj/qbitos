@@ -32,6 +32,9 @@
 (defn is-jblas-double[c]
   (= (type c) org.jblas.ComplexDouble))
 
+(defn is-jblas-complex-matrix[m]
+  (= (type m) org.jblas.ComplexDoubleMatrix))
+
 (defn is-vector[c]
   (and (= (type c) clojure.lang.PersistentVector) (number? (first c))))
 
@@ -46,6 +49,14 @@
     a
     (if (is-vector a)
       (complex (first a) (second a))
+      nil
+      )))
+
+(defn coerce-jblas-matrix[a]
+  (if (is-jblas-complex-matrix a)
+    a
+    (if (is-matrix a)
+      (from-persistent a)
       nil
       )))
 
@@ -71,39 +82,29 @@
           cb (coerce-jblas-double b)]
     (.add ca cb)))
 
-(defn mij[x y a b]
-  (let [rowi (get a x)
-        columnj (map #(get % y) b)]
-    (reduce #(sum %1 %2) [0 0] (map #(mul (first %) (second %)) (partition 2 (interleave rowi columnj))))))
-
 (defn single-mmul[a b]
-  {:pre [(= (count (first a)) (count b))]
-   :post [(and (= (count %) (count a)) (= (count (first %)) (count (first b))))]}
-  (let [rows (count a)
-        columns (count (first b))]
-    (vec (map vec (partition columns
-      (for [x (range rows) y (range columns)]
-        (mij x y a b)))))))
+  {:pre [(and (or (is-jblas-complex-matrix a) (is-matrix a)) (or (is-jblas-complex-matrix b) (is-matrix b)))]
+   :post [(is-jblas-complex-matrix %)]}
+  (let [ca (coerce-jblas-matrix a)
+          cb (coerce-jblas-matrix b)]
+    (.mul ca cb)))
 
 (defn mmul[& matrixList]
   (reduce #(single-mmul %1 %2) (first matrixList) (rest matrixList)))
 
-(defn transform[na nb f]
-  (vec (map vec (partition na
-    (for [x (range na)
-          y (range nb)]
-      (f x y))))))
-
 (defn single-msum[a b]
-  {:pre [(and (= (count a) (count b)) (= (count (first a)) (count (first b))))]}
-  (transform (count a) (count (first a)) #(sum (get-in a [%1 %2]) (get-in b [%1 %2]))))
+  {:pre [(and (or (is-jblas-complex-matrix a) (is-matrix a)) (or (is-jblas-complex-matrix b) (is-matrix b)))]
+   :post [(is-jblas-complex-matrix %)]}
+  (let [ca (coerce-jblas-matrix a)
+          cb (coerce-jblas-matrix b)]
+    (.add ca cb)))
 
 (defn msum[& matrixList]
   (reduce #(single-msum %1 %2) (first matrixList) (rest matrixList)))
 
 (defn trans[a]
-  {:post [(and (= (count %) (count (first a))) (= (count (first %)) (count a)))]
-   }
+  {:pre [(or (is-jblas-double a) (is-vector a))]
+   :post [(is-jblas-double %)]}
   (let [rows (count a)
         columns (count (first a))]
     (vec (map vec (partition rows
@@ -112,23 +113,27 @@
       (get-in a [y x])))))))
 
 (defn null[n]
-  (vec(take n (repeat (vec (repeat n (complex 0 0)))))))
+  {:pre [(number? n)]
+   }
+  (new org.jblas.ComplexDoubleMatrix n n))
 
 (defn ident[n]
-  (vec (map vec (partition n
-    (for [x (range n)
-          y (range n)]
-      (if (= x y)
-        (complex 1 0)
-        (complex 0 0)))))))
+  (from-persistent
+    (vec (map vec (partition n
+      (for [x (range n)
+            y (range n)]
+        (if (= x y)
+          [1 0]
+          [0 0])))))))
 
 (defn inv[n]
-  (vec (map vec (partition n
-    (for [x (range n)
-          y (range n)]
-      (if (= (+ x y) (dec n))
-        (complex 1 0)
-        (complex 0 0)))))))
+  (from-persistent
+    (vec (map vec (partition n
+      (for [x (range n)
+            y (range n)]
+        (if (= (+ x y) (dec n))
+          [1 0]
+          [0 0])))))))
 
 (defn format-comp [x]
   (str (first x) "+" (second x) "i"))
@@ -145,6 +150,14 @@
         parameters (vec (reduce #(concat %1 [%2 `(range ~r)]) [] names))]
   (eval `(for ~parameters ~names))))
 
+(defn cmul[c a]
+  {:pre [(and (or (is-jblas-double c) (is-vector c)) (or (is-jblas-complex-matrix a) (is-matrix a)))]
+   :post [(is-jblas-complex-matrix %)]}
+  (let [ca (coerce-jblas-matrix a)
+        cc (coerce-jblas-double c)]
+    (.mmul ca cc)))
+
+
 (defn tensorp [& matrices]
   (let [n (count matrices)
         rows (count (first matrices))
@@ -157,8 +170,4 @@
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
         (reduce mul [1 0] element-values))))))))
-
-(defn cmul[c a]
-  (let [mrow (fn [row] (vec (map #(mul c %) row)))]
-    (vec (map mrow a))))
 
