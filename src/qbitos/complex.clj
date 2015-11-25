@@ -38,20 +38,38 @@
 (defn is-matrix[m]
   (and (= (type m) clojure.lang.PersistentVector) (= (type (first m)) clojure.lang.PersistentVector) ))
 
-;; Complex Algebra functions
-;;----------------------------------------------------------------------------------------------
 (defn complex [a b]
   (new org.jblas.ComplexDouble (double a) (double b)))
 
+(defn coerce-jblas-double[a]
+  (if (is-jblas-double a)
+    a
+    (if (is-vector a)
+      (complex (first a) (second a))
+      nil
+      )))
+
+;; Complex Algebra functions
+;;----------------------------------------------------------------------------------------------
 (defn conjugate[a]
-  [ (first a) (- (second a))])
+  {:pre [(or (is-jblas-double a) (is-vector a))]
+   :post [(is-jblas-double %)]}
+  (let [c (coerce-jblas-double a)]
+    (.conj c)))
 
 (defn mul[a b]
-  [(- (* (first a) (first b)) (* (second a) (second b)))
-   (+ (* (second a) (first b)) (* (first a) (second b)))])
+  {:pre [(and (or (is-jblas-double a) (is-vector a)) (or (is-jblas-double b) (is-vector b)))]
+   :post [(is-jblas-double %)]}
+  (let [ca (coerce-jblas-double a)
+        cb (coerce-jblas-double b)]
+    (.mul ca cb)))
 
 (defn sum[a b]
-  [(+ (first a) (first b)) (+ (second a) (second b))])
+  {:pre [(and (or (is-jblas-double a) (is-vector a)) (or (is-jblas-double b) (is-vector b)))]
+   :post [(is-jblas-double %)]}
+    (let [ca (coerce-jblas-double a)
+          cb (coerce-jblas-double b)]
+    (.add ca cb)))
 
 (defn mij[x y a b]
   (let [rowi (get a x)
