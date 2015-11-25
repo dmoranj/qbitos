@@ -9,26 +9,6 @@
 (defn complex-to-array[c]
   [(.real c) (.imag c)])
 
-(defn get-real[c]
-  (-> c first double))
-
-(defn get-imaginary[c]
-  (-> c second double))
-
-(defn from-persistent[m]
-  (let [real-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-real %)) m)))
-        imaginary-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-imaginary %)) m)))]
-    (new org.jblas.ComplexDoubleMatrix real-matrix imaginary-matrix)))
-
-(defn to-persistent[m]
-  (vec (map #(vec (map complex-to-array %)) (.toArray2 (from-persistent m)))))
-
-(defn rowToDouble[row]
-  (vec (map #(vec (map double %)) row)))
-
-(defn matrixToDouble[matrix]
-  (vec (map rowToDouble matrix)))
-
 (defn is-jblas-double[c]
   (= (type c) org.jblas.ComplexDouble))
 
@@ -52,6 +32,20 @@
       nil
       )))
 
+(defn get-real[c]
+  (-> c coerce-jblas-double .real))
+
+(defn get-imaginary[c]
+  (-> c coerce-jblas-double .imag))
+
+(defn from-persistent[m]
+  (let [real-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-real %)) m)))
+        imaginary-matrix (new org.jblas.DoubleMatrix (into-array (map #(into-array Double/TYPE (map get-imaginary %)) m)))]
+    (new org.jblas.ComplexDoubleMatrix real-matrix imaginary-matrix)))
+
+(defn to-persistent[m]
+  (vec (map #(vec (map complex-to-array %)) (.toArray2 (from-persistent m)))))
+
 (defn coerce-jblas-matrix[a]
   (if (is-jblas-complex-matrix a)
     a
@@ -59,6 +53,14 @@
       (from-persistent a)
       nil
       )))
+
+
+(defn rowToDouble[row]
+  (vec (map #(vec (map double %)) row)))
+
+(defn matrixToDouble[matrix]
+  (vec (map rowToDouble matrix)))
+
 
 ;; Complex Algebra functions
 ;;----------------------------------------------------------------------------------------------
@@ -103,14 +105,10 @@
   (reduce #(single-msum %1 %2) (first matrixList) (rest matrixList)))
 
 (defn trans[a]
-  {:pre [(or (is-jblas-double a) (is-vector a))]
-   :post [(is-jblas-double %)]}
-  (let [rows (count a)
-        columns (count (first a))]
-    (vec (map vec (partition rows
-    (for [x (range columns)
-          y (range rows)]
-      (get-in a [y x])))))))
+  {:pre [(or (is-jblas-complex-matrix a) (is-matrix a))]
+   :post [(is-jblas-complex-matrix %)]}
+  (let [c (coerce-jblas-matrix a)]
+    (.transpose c)))
 
 (defn null[n]
   {:pre [(number? n)]
@@ -157,17 +155,26 @@
         cc (coerce-jblas-double c)]
     (.mmul ca cc)))
 
+(defn get-matrix-element[m i j]
+  (.get m i j))
 
-(defn tensorp [& matrices]
-  (let [n (count matrices)
-        rows (count (first matrices))
-        columns (count (first (first matrices)))
+(defn tensorp [& matObjects]
+  (let [n (count matObjects)
+        matrices (map coerce-jblas-matrix matObjects)
+        rows (.rows (first matrices))
+        columns (.columns (first matrices))
         row-indexes (vec (tensorp-indices n rows))
         column-indexes (vec (tensorp-indices n columns))]
-    (trans (vec (map vec (partition (int (Math/pow rows n))
+    (trans (from-persistent
+            (partition (int (Math/pow rows n))
       (for [x (range (count row-indexes))
             y (range (count column-indexes))
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
-                  element-values (map-indexed #(get-in (nth matrices %1) %2) element-indexes)]]
-        (reduce mul [1 0] element-values))))))))
+                  element-values (map-indexed #(apply get-matrix-element (nth matrices %1) (into-array Integer/TYPE %2)) element-indexes)]]
+        (complex-to-array (reduce mul [1 0] element-values))
+
+        )))
+    )
+    ))
+
 
