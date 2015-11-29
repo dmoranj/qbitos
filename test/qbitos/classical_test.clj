@@ -48,5 +48,5 @@
 (deftest generic-conditional-not
   (testing "Creation of generic conditional NOT doors"
     (defcij 1 0 2)
-    (is (= C-10 (matrixToDouble C10)))
+    (is (= C-10 (from-persistent C10)))
     ))

@@ -72,7 +72,6 @@
         (->> opX (msum unit) (cmul [0.5 0]))
         (->> opX (cmul [-1 0]) (msum unit) (mmul opZ) (cmul [0.5 0])))))
 
-
 (defmacro defcij[i j n]
   (let [operator-name (symbol (str "C-" i j))
         operator (createCij i j n)]
