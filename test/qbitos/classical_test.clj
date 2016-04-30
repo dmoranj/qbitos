@@ -48,5 +48,5 @@
 (deftest generic-conditional-not
   (testing "Creation of generic conditional NOT doors"
     (defcij 1 0 2)
-    (is (= C-10 (from-persistent C10)))
+    (is (= (to-persistent C-10) C10))
     ))

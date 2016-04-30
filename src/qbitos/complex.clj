@@ -172,5 +172,3 @@
             :let [element-indexes (vec (partition 2 (interleave (get row-indexes x) (get column-indexes y))))
                   element-values (map-indexed #(apply get-matrix-element (nth matrices %1) (into-array Integer/TYPE %2)) element-indexes)]]
         (complex-to-array (reduce mul [1 0] element-values))))))))
-
-
