@@ -89,7 +89,7 @@
    :post [(is-jblas-complex-matrix %)]}
   (let [ca (coerce-jblas-matrix a)
           cb (coerce-jblas-matrix b)]
-    (.mul ca cb)))
+    (.mmul ca cb)))
 
 (defn mmul[& matrixList]
   (reduce #(single-mmul %1 %2) (first matrixList) (rest matrixList)))
