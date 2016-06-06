@@ -401,34 +401,39 @@ The Deutch problems is one of the easiest exercises showing the power of the qua
 
 First of all, let's try to get an idea about the problem using classical computation and the QBitos library. Start by loading the common scenario variables by typing the following from the REPL
 ```
+qbitos.core=> (require 'qbitos.scenarios)
+nil
+qbitos.core=> (use 'qbitos.scenarios)
+nil
 qbitos.core=> (loadDeutch)
-#'qbitos.scenarios/H0
+#'qbitos.scenarios/f3
 qbitos.core=> (generate-vectors 2)
 #'qbitos.core/<11|
+qbitos.core=>
 ```
 This will load some global variables that will be useful during this exercises. We can start by applying the different functions to each of the four possible input values, to see their possible outcomes:
 ```
-qbitos.core=> (mmul f0 |00>)
-[[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
-qbitos.core=> (mmul f0 |10>)
+qbitos.core=> (to-persistent (mmul f0 |00>))
+[[[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=> (to-persistent (mmul f0 |10>))
+[[[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]]]
+qbitos.core=>
+
+qbitos.core=> (to-persistent (mmul f1 |00>))
+[[[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+qbitos.core=> (to-persistent (mmul f1 |10>))
+[[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]]]
+qbitos.core=>
+
+qbitos.core=> (to-persistent (mmul f2 |00>))
+[[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
+qbitos.core=> (to-persistent (mmul f2 |10>))
 [[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
 qbitos.core=>
 
-qbitos.core=> (mmul f1 |00>)
-[[[1 0]] [[0 0]] [[0 0]] [[0 0]]]
-qbitos.core=> (mmul f1 |10>)
-[[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
-qbitos.core=>
-
-qbitos.core=> (mmul f2 |00>)
+qbitos.core=> (to-persistent (mmul f3 |00>))
 [[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
-qbitos.core=> (mmul f2 |10>)
-[[[0 0]] [[0 0]] [[1 0]] [[0 0]]]
-qbitos.core=>
-
-qbitos.core=> (mmul f3 |00>)
-[[[0 0]] [[1 0]] [[0 0]] [[0 0]]]
-qbitos.core=> (mmul f3 |10>)
+qbitos.core=> (to-persistent (mmul f3 |10>))
 [[[0 0]] [[0 0]] [[0 0]] [[1 0]]]
 qbitos.core=>
 ```
@@ -436,25 +441,25 @@ Using classical operations, the only way we have to tell whether both images are
 
 Let's prepaire our state using the common quantum computing standard trick: prepairing the state in a superposition. In order to do this, we use the Hadamar operator in our initial register, before applying the operator:
 ```
-qbitos.core=> (mmul Uf H0 |10>)
+qbitos.core=> (to-persistent (mmul Uf H0 |10>))
 [[[0.0 0.0]] [[0.7071067811865475 0.0]] [[-0.7071067811865475 0.0]] [[0.0 0.0]]]
 qbitos.core=>
 ```
 Measuring this value will get us one of the possible outcomes for the operators, but this will still give os no information whatsoever about it being constant. In order to get more info, we will apply some more unitary operators to our vector (you can find the theoretical demonstration in the book, Section 2.2).
 ```
-qbitos.core=> (mmul H0 Uf H0H1 X0X1 |00>)
+qbitos.core=> (to-persistent (mmul H0 Uf H0H1 X0X1 |00>))
 [[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
 qbitos.core=>
 ```
 What have we gained with this approach? Let's apply our formula to each one of the possible functions, to know more about our new approach:
 ```
-qbitos.core=> (mmul H0 f0 H0H1 X0X1 |00>)
+qbitos.core=> (to-persistent (mmul H0 f0 H0H1 X0X1 |00>))
 [[[0.0 0.0]] [[0.0 0.0]] [[0.7071067811865474 0.0]] [[-0.7071067811865474 0.0]]]
-qbitos.core=> (mmul H0 f1 H0H1 X0X1 |00>)
+qbitos.core=> (to-persistent (mmul H0 f1 H0H1 X0X1 |00>))
 [[[0.7071067811865474 0.0]] [[-0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
-qbitos.core=> (mmul H0 f2 H0H1 X0X1 |00>)
+qbitos.core=> (to-persistent (mmul H0 f2 H0H1 X0X1 |00>))
 [[[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
-qbitos.core=> (mmul H0 f3 H0H1 X0X1 |00>)
+qbitos.core=> (to-persistent (mmul H0 f3 H0H1 X0X1 |00>))
 [[[0.0 0.0]] [[0.0 0.0]] [[-0.7071067811865474 0.0]] [[0.7071067811865474 0.0]]]
 qbitos.core=>
 ```
@@ -481,6 +486,10 @@ quantum computing tricks, the total number of calls can be reduced to 1, for any
 
 Let's try this classical approach, in order to understand the problem better. First of all, we define f(x), using some auxiliar functions:
 ```
+qbitos.core=> (require 'qbitos.scenarios)
+nil
+qbitos.core=> (use 'qbitos.scenarios)
+nil
 qbitos.core=> (loadBernsteinVazirani 5 4)
 #'qbitos.scenarios/fx
 qbitos.core=> (generate-vectors 4)
@@ -491,16 +500,15 @@ Here, we are using the `loadBernsteinVazirani` function to define `fx` with the 
 
 We can now start to guess the bits in the `a` number (and it better ends up being 5):
 ```
-qbitos.core=> (mmul fx |1000>)
+qbitos.core=> (to-persistent (mmul fx |1000>))
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
-qbitos.core=>
 
-qbitos.core=> (mmul fx |0100>)
+qbitos.core=> (to-persistent (mmul fx |0100>))
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
-qbitos.core=>
 
-qbitos.core=> (mmul fx |0010>)
+qbitos.core=> (to-persistent (mmul fx |0010>))
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]]]
+
 qbitos.core=>
 ```
 This may be a little difficult to read, but conceptually, is the same classical algorithm we described above. In any of the iterations we are applying (via a matrix multiplication) the unitary operator f(x) to a register composed of four qbits: three qbits for the input and one single qbit for the output. In order to guess the number, we try with the three powers of two below 2^3, that is: 2^2 = 4, 2^1  = 2 and 2^0 = 1. The results are given as the tensor product of the three bits; the corresponding bit representations of the answers are the following:
@@ -513,10 +521,14 @@ This may be a little difficult to read, but conceptually, is the same classical 
 
 As we can see the output register (the last qbit) is 1 for the first and the last entries (the ones having the most and least significant qbits with value 1), so a must have just those two qbits on, i.e. it must be 101, or 5 (as we expected).
 
-Using quabtym computing operators, we can perform the following trick:
+Using quantum computing operators, we can perform the following trick:
 ```
-qbitos.core=> (mmul H0H1H2H3 fx H0H1H2H3 |0001>)
+qbitos.core=> (defoperator H0H1H2H3 4)
+#'qbitos.core/H0H1H2H3
+
+qbitos.core=> (to-persistent (mmul H0H1H2H3 fx H0H1H2H3 |0001>))
 [[[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[-1.3877787807814457E-17 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.9999999999999996 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[0.0 0.0]] [[1.3877787807814457E-17 0.0]]]
+
 qbitos.core=>
 ```
 First of all, concerning the result: we can see that there is a single bit in a state "near 1" (the 11th bit) and several bits in a state "near 0" (due to the discrete nature of the simulation). This is the tensor form of the |1011> qbit vector. As we can see, the input state has changed to the binary value '101', i.e, the decimal number 5, that is the value of a. We have discovered the value of a in a single operation, instead of the **n** operations needed in its classical counterpart.
