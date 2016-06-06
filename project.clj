@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
+                 [jblas "1.2.1"]
                  [incanter "1.5.6"]
                  [org.clojure/clojure "1.6.0"]]
   :main qbitos.core

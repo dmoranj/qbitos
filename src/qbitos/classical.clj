@@ -3,45 +3,51 @@
 
 (use 'qbitos.complex)
 
-(def |0> [[(complex 1 0)] [(complex 0 0)]])
-(def |1> [[(complex 0 0)] [(complex 1 0)]])
-(def C01 [[[1 0 ][0 0][0 0 ][0 0]]
+(def |0> (from-persistent [[[1 0]][[0 0]]]))
+(def |1> (from-persistent [[[0 0]][[1 0]]]))
+
+(def C01 (from-persistent [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
-          ])
-(def C10 [[[1 0 ][0 0][0 0 ][0 0]]
+          ]))
+
+(def C10 (from-persistent [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
-          ])
-(def S10 [[[1 0 ][0 0][0 0 ][0 0]]
+          ]))
+
+(def S10 (from-persistent [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
-          ])
+          ]))
+
 (def S01 S10)
-(def S00 [[[0 0 ][0 0][0 0 ][1 0]]
+
+(def S00 (from-persistent [[[0 0 ][0 0][0 0 ][1 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
           [[0 0 ][0 0][1 0 ][0 0]]
           [[1 0 ][0 0][0 0 ][0 0]]
-          ])
+          ]))
+
 (def S11 S00)
 
-(def X [[[0 0][1 0]]
-        [[1 0][0 0]]])
-(def Y [[[0 0][0 -1]]
-        [[0 1][0 0]]])
-(def Z [[[1 0][0 0]]
-        [[0 0][-1 0]]])
+(def X (from-persistent [[[0 0][1 0]]
+        [[1 0][0 0]]]))
+(def Y (from-persistent [[[0 0][0 -1]]
+        [[0 1][0 0]]]))
+(def Z (from-persistent [[[1 0][0 0]]
+        [[0 0][-1 0]]]))
 
-(def H (cmul [(/ 1 (Math/sqrt 2)) 0] [[[1 0][1 0]][[1 0][-1 0]]]))
+(def H (cmul (complex (/ 1 (Math/sqrt 2)) 0) [[[1 0][1 0]][[1 0][-1 0]]]))
 
-(def n [[[0 0 ][0 0]]
-        [[0 0 ][1 0]]])
+(def n (from-persistent [[[0 0 ][0 0]]
+        [[0 0 ][1 0]]]))
 
-(def ñ [[[1 0][0 0]]
-         [[0 0][0 0]]])
+(def ñ (from-persistent [[[1 0][0 0]]
+         [[0 0][0 0]]]))
 
 (defmacro defbits[x]
   (let [pruebas (-> x str seq first)
@@ -71,7 +77,6 @@
      (msum
         (->> opX (msum unit) (cmul [0.5 0]))
         (->> opX (cmul [-1 0]) (msum unit) (mmul opZ) (cmul [0.5 0])))))
-
 
 (defmacro defcij[i j n]
   (let [operator-name (symbol (str "C-" i j))

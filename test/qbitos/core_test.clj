@@ -16,54 +16,54 @@
 
 (deftest sum-complex-numbers
   (testing "Sum of complex numbers."
-    (is (= (sum A B) [7 -6]))))
+    (is (= (sum A B) (complex 7 -6)))))
 
 (deftest square-complex-numbers
   (testing "Multiplication of complex numbers."
-    (is (= (mul A A) [16 30]))))
+    (is (= (mul A A) (complex 16 30)))))
 
 (deftest conjugate-complex-numbers
   (testing "Conjugate of complex a number."
-    (is (= (conjugate A) [5 -3]))))
+    (is (= (conjugate A) (complex 5 -3)))))
 
 (deftest conjugate-multiplication
   (testing "Multiplication by the conjugate."
-    (is (= (mul A (conjugate A)) [34 0]))))
+    (is (= (mul A (conjugate A)) (complex 34 0)))))
 
 (deftest transposition
   (testing "Transposition of matrices"
-    (is (= (trans RECT) [[[1 1] [1 1] [1 1]] [[2 0] [2 0] [2 0]]]))
-    (is (= (trans COL1) [[[1 1]] [[2 0]]]))
-    (is (= (trans C) [[[1 5] [0 2]] [[-1 3] [6 -1]]]))))
+    (is (= (trans RECT) (coerce-jblas-matrix [[[1 1] [1 1] [1 1]] [[2 0] [2 0] [2 0]]])))
+    (is (= (trans COL1) (coerce-jblas-matrix [[[1 1]] [[2 0]]])))
+    (is (= (trans C) (coerce-jblas-matrix [[[1 5] [0 2]] [[-1 3] [6 -1]]])))))
 
 (deftest identity-generation
   (testing "Generation of an identity matrix."
-    (is (= (ident 2) [[[1 0] [0 0]] [[0 0] [1 0]]]))))
+    (is (= (ident 2) (coerce-jblas-matrix [[[1 0] [0 0]] [[0 0] [1 0]]])))))
 
 (deftest null-generation
   (testing "Generation of a nu matrix."
-    (is (= (null 2) [[[0 0] [0 0]] [[0 0] [0 0]]]))))
+    (is (= (null 2) (coerce-jblas-matrix [[[0 0] [0 0]] [[0 0] [0 0]]])))))
 
 (deftest inv-generation
   (testing "Generation of an inverse identity matrix."
-    (is (= (inv 2) [[[0 0] [1 0]] [[1 0] [0 0]]]))))
+    (is (= (inv 2) (coerce-jblas-matrix [[[0 0] [1 0]] [[1 0] [0 0]]])))))
 
 (deftest matrix-sum
   (testing "Sum of complex matrices."
-    (is (= (msum C (ident 2)) [[[2 5] [-1 3]] [[0 2] [7 -1]]]))
-    (is (= (msum (ident 2) (ident 2) (ident 2)) (cmul [3 0] (ident 2))))))
+    (is (= (msum C (ident 2)) (coerce-jblas-matrix [[[2 5] [-1 3]] [[0 2] [7 -1]]])))
+    (is (= (msum (ident 2) (ident 2) (ident 2)) (coerce-jblas-matrix (cmul [3 0] (ident 2)))))))
 
 (deftest matrix-mul
   (testing "Multiplication of complex matrices."
-    (is (= (mmul C (inv 2)) [[[-1 3] [1 5]] [[6 -1] [0 2]]]))
-    (is (= (mmul C (inv 2) (inv 2)) C))))
+    (is (= (mmul C (inv 2)) (coerce-jblas-matrix [[[-1 3] [1 5]] [[6 -1] [0 2]]])))
+    (is (= (mmul C (inv 2) (inv 2)) (coerce-jblas-matrix C)))))
 
 (deftest tensor-product
   (testing "Tensor product of complex matrices."
-    (is (= (tensorp COL1 COL2) [[[3 3][4 4][6 0][8 0]]]))))
+    (is (= (tensorp COL1 COL2) (coerce-jblas-matrix [[[3 3][4 4][6 0][8 0]]])))))
 
 (deftest constant-product
   (testing "Product of a constant by a matrix."
-    (is (= (cmul [2 0] (ident 2)) [[[2 0] [0 0]] [[0 0] [2 0]]]))))
+    (is (= (cmul [2 0] (ident 2)) (coerce-jblas-matrix [[[2 0] [0 0]] [[0 0] [2 0]]])))))
 
 
