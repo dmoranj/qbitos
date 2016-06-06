@@ -44,7 +44,7 @@
     (new org.jblas.ComplexDoubleMatrix real-matrix imaginary-matrix)))
 
 (defn to-persistent[m]
-  (vec (map #(vec (map complex-to-array %)) (.toArray2 (from-persistent m)))))
+  (vec (map #(vec (map complex-to-array %)) (.toArray2 m))))
 
 (defn coerce-jblas-matrix[a]
   (if (is-jblas-complex-matrix a)

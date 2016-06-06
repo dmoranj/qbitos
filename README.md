@@ -31,47 +31,57 @@ The result in both cases will be a command line interpreter in your console wher
 
 ## Usage
 ### The Complex Matrices API
-At the very roots of the Quantum Computation fields there is a whole bunch of mathematical operations, mainly related with vector spaces and complex matrices. This API aims to deal with all this operations in an easey way. BIG IMPORTANT DISCLAIMER: this API is not meant to be efficient (and it doesn't happen to be); its sole purpose is to be used as a didactical resource on the learning of quantum computing and, as such, it has severe limitations on the size of the operations it can execute. As a hint, you better not work with more than six or eight QBits at a time (as you will see, you will be operating with matrices of 2^n range, being n the number of QBits, so you can see this will grow really, really fast).
+At the very roots of the Quantum Computation fields there is a whole bunch of mathematical operations, mainly related with vector spaces and complex matrices. This API aims to deal with all this operations in an easy way. BIG IMPORTANT DISCLAIMER: this API is not meant to be efficient (and it doesn't happen to be); its sole purpose is to be used as a didactical resource on the learning of quantum computing and, as such, it has severe limitations on the size of the operations it can execute. As a hint, you better not work with more than six or eight QBits at a time (as you will see, you will be operating with matrices of 2^n range, being n the number of QBits, so you can see this will grow really, really fast).
 
 This API represents matrices as vectors of vectors of vectors:
 * each complex number is a vector of two elements, the first one the real part, and the second the imaginary part.
 * each matrix is composed of a vector of rows
 * each row is composed of a vector of elements
 
-As an example, you can see the range 3 identity matrix:
+This API makes use of a mathematics library called [JBlas](http://jblas.org). Matrices in this library are represented
+using the `ComplexDoubleMatrix` class. All the internal operations of the library are performed using this classes. In order
+to ease the interaction with the library, and enhance visualization, a `(to-persistent)` function was created (it will be
+used in the visualization of all the examples across this document). Complex numbers are also represented by its own class,
+`ComplexDouble`, and a function was created to transform them to persistent arrays of doubles, `(complex-to-array)`
+
+Also note that all the command line output across this document will be indented to enhance readability.
+
+As an example of use of the library, you can see the range 3 identity matrix:
 ```
-qbitos.core=> (ident 3)
+qbitos.core=> (to-persistent (ident 3))
 [
-[[1 0] [0 0] [0 0]]
-[[0 0] [1 0] [0 0]]
-[[0 0] [0 0] [1 0]]
+[[1.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [1.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [1.0 0.0]]
 ]
+
 qbitos.core=>
 ```
-As you can see, there are three rows, with real parts of the main diagonal with value one and the rest of the elements with zero value.
+As you can see, there are three rows, with real parts in the main diagonal with value one and the rest of the elements with zero value.
 
-The following sections show the API one operator at a time.
+The following sections will show the API operators one by one.
 
 #### (ident r)
 Creates an identity matrix of range `r`.
 ```
-qbitos.core=> (ident 3)
+qbitos.core=> (to-persistent (ident 3))
 [
-[[1 0] [0 0] [0 0]]
-[[0 0] [1 0] [0 0]]
-[[0 0] [0 0] [1 0]]
+[[1.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [1.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [1.0 0.0]]
 ]
+
 qbitos.core=>
 ```
 
 #### (null r)
 Creates a null matrix of range `r`.
 ```
-qbitos.core=> (null 3)
+qbitos.core=> (to-persistent (null 3))
 [
-[[0 0] [0 0] [0 0]]
-[[0 0] [0 0] [0 0]]
-[[0 0] [0 0] [0 0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0]]
 ]
 qbitos.core=>
 ```
@@ -81,18 +91,20 @@ Creates an inverse matrix of range `r`, i.e.: a matrix that, multiplied by anoth
 ```
 qbitos.core=> (def pruebas (msum (ident 3) (ident 3) (ident 3)))
 #'qbitos.core/pruebas
-qbitos.core=> pruebas
+qbitos.core=> (to-persistent pruebas)
 [
-[[3 0] [0 0] [0 0]]
-[[0 0] [3 0] [0 0]]
-[[0 0] [0 0] [3 0]]
+[[3.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [3.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [3.0 0.0]]
 ]
-qbitos.core=> (mmul pruebas (inv 3))
+
+qbitos.core=> (to-persistent (mmul pruebas (inv 3)))
 [
-[[0 0] [0 0] [3 0]]
-[[0 0] [3 0] [0 0]]
-[[3 0] [0 0] [0 0]]
+[[0.0 0.0] [0.0 0.0] [3.0 0.0]]
+[[0.0 0.0] [3.0 0.0] [0.0 0.0]]
+[[3.0 0.0] [0.0 0.0] [0.0 0.0]]
 ]
+
 qbitos.core=>
 ```
 
@@ -102,10 +114,10 @@ Generates the transpose of the matrix `m`.
 ```
 qbitos.core=> (def CUA3 [[[5 2][6 0]][[7 -9][8 0]]])
 #'qbitos.core/CUA3
-qbitos.core=> (trans CUA3)
+qbitos.core=> (to-persistent (trans CUA3))
 [
-[[5 2] [7 -9]]
-[[6 0] [8 0]]
+[[5.0 2.0] [7.0 -9.0]]
+[[6.0 0.0] [8.0 0.0]]
 ]
 qbitos.core=>
 ```
@@ -113,11 +125,11 @@ qbitos.core=>
 #### (msum m1..mn)
 Sum matrices of the same dimensions.
 ```
-qbitos.core=> (msum (ident 3) (ident 3) (ident 3))
+qbitos.core=> (to-persistent (msum (ident 3) (ident 3) (ident 3)))
 [
-[[3 0] [0 0] [0 0]]
-[[0 0] [3 0] [0 0]]
-[[0 0] [0 0] [3 0]]
+[[3.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [3.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [3.0 0.0]]
 ]
 qbitos.core=>
 ```
@@ -129,19 +141,22 @@ qbitos.core=> (def CUA1 [[[1 0][2 0]][[3 0][4 0]]])
 #'qbitos.core/CUA1
 qbitos.core=> (def CUA2 [[[5 0][6 0]][[7 0][8 0]]])
 #'qbitos.core/CUA2
-qbitos.core=> (mmul CUA1 CUA2)
-[[[19 0] [22 0]] [[43 0] [50 0]]]
+qbitos.core=> (to-persistent (mmul CUA1 CUA2))
+[
+[[19.0 0.0] [22.0 0.0]]
+[[43.0 0.0] [50.0 0.0]]
+]
 qbitos.core=>
 ```
 
 #### (cmul c m)
 Multiplies a matrix `m` by a constant complex number `c`.
 ```
-qbitos.core=> (cmul [6 2] (ident 3))
+qbitos.core=> (to-persistent (cmul [6 2] (ident 3)))
 [
-[[6 2] [0 0] [0 0]]
-[[0 0] [6 2] [0 0]]
-[[0 0] [0 0] [6 2]]
+[[6.0 2.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [6.0 2.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [6.0 2.0]]
 ]
 qbitos.core=>
 ```
@@ -150,8 +165,8 @@ qbitos.core=>
 Returns the conjugate of the complex number `c`.
 
 ```
-qbitos.core=> (conjugate [4 -2])
-[4 2]
+qbitos.core=> (complex-to-array (conjugate [4 -2]))
+[4.0 2.0]
 qbitos.core=>
 ```
 
@@ -159,8 +174,8 @@ qbitos.core=>
 Multiplies two complex numbers.
 
 ```
-qbitos.core=> (mul [2 0] [-3 1])
-[-6 2]
+qbitos.core=> (complex-to-array (mul [2 0] [-3 1]))
+[-6.0 2.0]
 qbitos.core=>
 ```
 
@@ -168,8 +183,8 @@ qbitos.core=>
 Add to complex numbers together.
 
 ```
-qbitos.core=> (sum [2 0] [-3 1])
-[-1 1]
+qbitos.core=> (complex-to-array (sum [2 0] [-3 1]))
+[-1.0 1.0]
 qbitos.core=>
 ```
 
@@ -177,12 +192,12 @@ qbitos.core=>
 Calculates the tensor product of all the matrices passed as a parameter.
 
 ```
-qbitos.core=> (tensorp (ident 2) (inv 2))
+qbitos.core=> (to-persistent (tensorp (ident 2) (inv 2)))
 [
-[[0 0] [1 0] [0 0] [0 0]]
-[[1 0] [0 0] [0 0] [0 0]]
-[[0 0] [0 0] [0 0] [1 0]]
-[[0 0] [0 0] [1 0] [0 0]]
+[[0.0 0.0] [1.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[1.0 0.0] [0.0 0.0] [0.0 0.0] [0.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [0.0 0.0] [1.0 0.0]]
+[[0.0 0.0] [0.0 0.0] [1.0 0.0] [0.0 0.0]]
 ]
 qbitos.core=>
 ```
