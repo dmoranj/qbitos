@@ -3,8 +3,9 @@
 
 (use 'qbitos.complex)
 
-(def |0> [[(complex 1 0)] [(complex 0 0)]])
-(def |1> [[(complex 0 0)] [(complex 1 0)]])
+(def |0> (from-persistent [[[1 0]][[0 0]]]))
+(def |1> (from-persistent [[[0 0]][[1 0]]]))
+
 (def C01 (from-persistent [[[1 0 ][0 0][0 0 ][0 0]]
           [[0 0 ][1 0][0 0 ][0 0]]
           [[0 0 ][0 0][0 0 ][1 0]]
