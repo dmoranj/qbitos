@@ -14,13 +14,15 @@
 (defoperator X1 2)
 (defoperator Y0 3)
 
+(defcij 1 0 2)
+
 (deftest multibit-definition
   (testing "Definition of multibit constants."
-    (is (= (to-persistent |10>) [[[0 0]] [[0 0]] [[1 0]] [[0 0]]]))))
+    (is (= |10> (from-persistent [[[0 0]] [[0 0]] [[1 0]] [[0 0]]])))))
 
 (deftest multibit-bravector
   (testing "Define multibit bra vectors."
-    (is (= <10| [[[0 0] [0 0] [1 0] [0 0]]]))))
+    (is (= <10| (from-persistent [[[0 0] [0 0] [1 0] [0 0]]])))))
 
 (deftest conditional-not-constant
   (testing "Test the 2-bit constant CNOT"
@@ -34,7 +36,7 @@
     (is (= (mmul n n) n))
     (is (= (mmul ñ ñ) ñ))
     (is (= (mmul ñ n) (mmul n ñ)))
-    (is (= (mmul ñ n) [[[0 0] [0 0]] [[0 0] [0 0]]]))
+    (is (= (mmul ñ n) (from-persistent [[[0 0] [0 0]] [[0 0] [0 0]]])))
     (is (= (msum n ñ) (ident 2)))))
 
 (deftest operator-combination
@@ -42,11 +44,10 @@
     (is (= (mmul X1 |10>) |11>))
     (is (= (mmul X1 |01>) |00>))
     (is (= (mmul X1 |10>) |11>))
-    (is (= (mmul Y0 |010>) [[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 -1]] [[0 0]]]))
+    (is (= (mmul Y0 |010>) (from-persistent [[[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 0]] [[0 -1]] [[0 0]]])))
     ))
 
-;; (deftest generic-conditional-not
-;;  (testing "Creation of generic conditional NOT doors"
-;;    (defcij 1 0 2)
-;;    (is (= (to-persistent C-10) C10))
-;;    ))
+ (deftest generic-conditional-not
+  (testing "Creation of generic conditional NOT doors"
+    (is (= C-10 C10))
+    ))
