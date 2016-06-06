@@ -7,7 +7,7 @@
 (use 'qbitos.complex)
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Main entry point"
   [& args]
-  (println "Hello, World!"))
+  '())
 
