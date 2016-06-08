@@ -375,7 +375,51 @@ qbitos.core=> (measure initial)
 qbitos.core=>
 ```
 
+### Utils
+Aside from the library's features, some functions are provided to improve the usability of the library
+(particularly in the REPL).
+
+#### (visualize value)
+This function lets the user visualize a certain value in a human-friendly way, dependant on the type of value:
+
+* If the value is an operator (i.e.: a Complex Double Matrix), the matrix will be printed with one line per row
+and each complex number in its `(x + yi)` format:
+```
+qbitos.core=> (visualize C01)
+[
+(1.00+0.00i) (0.00+0.00i) (0.00+0.00i) (0.00+0.00i)
+(0.00+0.00i) (1.00+0.00i) (0.00+0.00i) (0.00+0.00i)
+(0.00+0.00i) (0.00+0.00i) (0.00+0.00i) (1.00+0.00i)
+(0.00+0.00i) (0.00+0.00i) (1.00+0.00i) (0.00+0.00i)
+]
+
+nil
+qbitos.core=>
+```
+* If the value is a state, it will be represented as a sum of all the bases for that state multiplied by the appropriate
+complex coefficients (but for the pure states, that will be represented without coefficients):
+```
+qbitos.core=> (visualize |010>)
+|010>
+
+nil
+qbitos.core=> (visualize (mmul H0H1H2 |010>))
+(0.35+0.00i) |000> + (0.35+0.00i) |001> + (-0.35+0.00i) |010> + (-0.35+0.00i) |011> + (0.35+0.00i) |100> + (0.35+0.00i) |101> + (-0.35+0.00i) |110> + (-0.35+0.00i) |111>
+
+nil
+qbitos.core=>
+```
+* If the value is a Complex Number, it will be represented in its `(x + yi)` format:
+```
+qbitos.core=> (visualize (complex 4 3))
+(4.00+3.00i)
+
+nil
+qbitos.core=>
+```
+
 ## Exercises
+
 
 ### Exercise 1. The Deutsch's problem
 

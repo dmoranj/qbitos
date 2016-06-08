@@ -5,10 +5,6 @@
 (use 'qbitos.classical)
 
 
-(defn log2[x]
-  (int (/ (Math/log x) (Math/log 2)))
-  )
-
 (defn get-probability[[[real imaginary]]]
   (+ (* real real) (* imaginary imaginary))
   )
