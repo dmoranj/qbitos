@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [
                  [net.mikera/core.matrix "0.34.0"]
-		 [org.clojure/math.numeric-tower "0.0.4"]
+		             [org.clojure/math.numeric-tower "0.0.4"]
+                 [jblas "1.2.1"]
                  [incanter "1.5.6"]
                  [org.clojure/clojure "1.6.0"]]
   :main qbitos.core

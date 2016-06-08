@@ -31,7 +31,7 @@
     (conj accumulated-vector (vector (first item) (+ last-result (second item) )))))
 
 (defn measure[state]
-  (let [probability-vector (reduce accumulate [ ] (sort-by second (get-probability-vector state)))
+  (let [probability-vector (reduce accumulate [ ] (sort-by second (get-probability-vector (to-persistent state))))
         random-value (* (Math/random) (-> probability-vector last last))
         ]
     (str "|" (first (last (take-while #(< (second %) random-value) probability-vector))) ">")))
