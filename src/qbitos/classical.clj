@@ -99,3 +99,7 @@
           :let [ ket (symbol (str "<" (generate-bits x bits) "|"))]]
               `(defbits ~ket))]
     `(do ~@define-bras ~@define-kets)))
+
+
+(defn bit-values[bit-string]
+  (map #(- (int %) 48) (seq bit-string)))

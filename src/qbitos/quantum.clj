@@ -43,7 +43,7 @@
         values (range max-value)
         total-bits (range (* 2 bits))
         bit-inputs (map #(generate-bits % bits) values)
-        responses (map #(-> % f (mod max-value) int) values)
+        responses (map #(-> (f bits %) (mod max-value) int) values)
         bit-outputs (map #(generate-bits % bits) responses)
         identity-output  (apply str (map #(str "I" %) total-bits))
         get-n-operator (fn [x]

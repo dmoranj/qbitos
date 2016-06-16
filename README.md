@@ -390,9 +390,13 @@ e.g:
 ```
 qbitos.core=> (generate-vectors 6)
 #'qbitos.core/<111111|
-qbitos.core=> (defn f2[x]
+qbitos.core=> (defn f2[bits x]
          #_=> (+ 1 x))
 #'qbitos.core/f2
+qbitos.core=>
+
+qbitos.core=>
+
 qbitos.core=>
 
 qbitos.core=> (def Uf2 (caseTable f2 3))
@@ -407,6 +411,13 @@ qbitos.core=> (visualize (mmul Uf2 |001000>) )
 nil
 qbitos.core=>
 ```
+
+As can be seen in the example, functions will be invoked with two parameters:
+
+- *bits*: the number of bits codifiying the value.
+- *x*: the value itself (it will always be an integer number).
+
+The result from the function must be an integer number as well.
 
 ### Utils
 Aside from the library's features, some functions are provided to improve the usability of the library
