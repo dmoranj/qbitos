@@ -4,7 +4,6 @@
 (use 'qbitos.complex)
 (use 'qbitos.classical)
 
-
 (defn get-probability[[[real imaginary]]]
   (+ (* real real) (* imaginary imaginary))
   )
@@ -31,3 +30,43 @@
         random-value (* (Math/random) (-> probability-vector last last))
         ]
     (str "|" (first (last (take-while #(< (second %) random-value) probability-vector))) ">")))
+
+
+(defn define-term[bits term]
+  (let [selector (create-operator (first term) (* 2 bits))
+        value (create-operator (second term) (* 2 bits))
+        ]
+    (mmul selector value)))
+
+(defn caseTable[f bits]
+  (let [max-value (Math/pow 2 bits)
+        values (range max-value)
+        total-bits (range (* 2 bits))
+        bit-inputs (map #(generate-bits % bits) values)
+        responses (map #(-> % f (mod max-value) int) values)
+        bit-outputs (map #(generate-bits % bits) responses)
+        identity-output  (apply str (map #(str "I" %) total-bits))
+        get-n-operator (fn [x]
+                         (apply str (map-indexed
+                           (fn [idx itm]
+                             (if (= itm \1)
+                                (str "n" idx)
+                                (str "ñ" idx)
+                                )) x)))
+        get-x-operator (fn [x]
+                         (apply str (map-indexed
+                           (fn [idx itm]
+                             (if (= itm \1)
+                                (str "X" (+ bits idx))
+                                ""
+                                )) x)))
+
+        clean-empty (fn [x]
+                      (if (= x "")
+                        identity-output
+                        x))
+        n-operators (map get-n-operator bit-inputs)
+        x-operators (map clean-empty (map get-x-operator bit-outputs))
+        terms (partition 2 (interleave n-operators x-operators))
+        ]
+    (apply msum (map (partial define-term bits) terms))))

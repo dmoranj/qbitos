@@ -34,6 +34,9 @@
 
 (def S11 S00)
 
+(def I (from-persistent [[[1 0][0 0]]
+        [[0 0][1 0]]]))
+
 (def X (from-persistent [[[0 0][1 0]]
         [[1 0][0 0]]]))
 (def Y (from-persistent [[[0 0][0 -1]]

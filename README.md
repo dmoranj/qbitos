@@ -375,6 +375,39 @@ qbitos.core=> (measure initial)
 qbitos.core=>
 ```
 
+#### (caseTable fn bits)
+Generates a quantum computing Universal Function Operator (Uf) based on a single parameter function `fn`. The operator
+transforms a `2 * bits` length state Si into a `2 * bits` length state Sf where:
+
+- The initial state Si is composed of the tensor product of a `bits` length input state containing the input value and another
+`bits` length output state were all the qbits are 0's.
+
+- The final state Sf is composed of the tensor product of a `bits` length input state with an unpredictable output and
+another `bits` length output state, that is the result of applying the function `fn` to the initial input state.
+
+e.g:
+
+```
+qbitos.core=> (generate-vectors 6)
+#'qbitos.core/<111111|
+qbitos.core=> (defn f2[x]
+         #_=> (+ 1 x))
+#'qbitos.core/f2
+qbitos.core=>
+
+qbitos.core=> (def Uf2 (caseTable f2 3))
+#'qbitos.core/Uf2
+qbitos.core=> (visualize (mmul Uf2 |100000>) )
+|100101>
+
+nil
+qbitos.core=> (visualize (mmul Uf2 |001000>) )
+|001010>
+
+nil
+qbitos.core=>
+```
+
 ### Utils
 Aside from the library's features, some functions are provided to improve the usability of the library
 (particularly in the REPL).
