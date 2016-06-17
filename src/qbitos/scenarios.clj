@@ -34,7 +34,7 @@
     (let [abit (bit-values (generate-bits a bits))
           xvalue (mod (+ offset x) (Math/pow 2 bits))
           xbit (bit-values (generate-bits xvalue bits))]
-      (map #(bit-xor (first %) (second %)) (partition 2 (interleave abit xbit))))))
+      (bit-sequence-value (map #(bit-xor (first %) (second %)) (partition 2 (interleave abit xbit)))))))
 
 (defn loadSimonProblem[a bits]
   (def fSimon (createFModuloA a))

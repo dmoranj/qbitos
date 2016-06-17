@@ -69,4 +69,4 @@
         x-operators (map clean-empty (map get-x-operator bit-outputs))
         terms (partition 2 (interleave n-operators x-operators))
         ]
-    (apply msum (map (partial define-term bits) terms))))
+    (apply msum (pmap (partial define-term bits) terms))))

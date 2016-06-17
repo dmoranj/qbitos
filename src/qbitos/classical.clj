@@ -103,3 +103,6 @@
 
 (defn bit-values[bit-string]
   (map #(- (int %) 48) (seq bit-string)))
+
+(defn bit-sequence-value [s]
+  (int (reduce + (map-indexed #(* %2 (Math/pow 2 (- (dec (count s)) %1))) s))))

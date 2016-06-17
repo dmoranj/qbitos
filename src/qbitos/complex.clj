@@ -44,7 +44,7 @@
     (new org.jblas.ComplexDoubleMatrix real-matrix imaginary-matrix)))
 
 (defn to-persistent[m]
-  (vec (map #(vec (map complex-to-array %)) (.toArray2 m))))
+  (vec (pmap #(vec (map complex-to-array %)) (.toArray2 m))))
 
 (defn coerce-jblas-matrix[a]
   (if (is-jblas-complex-matrix a)
@@ -160,7 +160,7 @@
 
 (defn tensorp [& matObjects]
   (let [n (count matObjects)
-        matrices (map coerce-jblas-matrix matObjects)
+        matrices (pmap coerce-jblas-matrix matObjects)
         rows (.rows (first matrices))
         columns (.columns (first matrices))
         row-indexes (vec (tensorp-indices n rows))
@@ -174,6 +174,10 @@
         (complex-to-array (reduce mul [1 0] element-values))))))))
 
 (defn log2[x]
-  (int (/ (Math/log x) (Math/log 2)))
-  )
+  (int (/ (Math/log x) (Math/log 2))))
 
+(defn save-matrix[m file]
+  (spit file (str (to-persistent m))))
+
+(defn load-matrix[file]
+  (from-persistent (read-string (slurp file))))

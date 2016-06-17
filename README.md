@@ -423,6 +423,12 @@ The result from the function must be an integer number as well.
 Aside from the library's features, some functions are provided to improve the usability of the library
 (particularly in the REPL).
 
+#### (save-matrix matrix file)
+Saves a matrix in the internal matrix format to a file.
+
+#### (load-matrix file)
+Loads a matrix in the internal matrix format from a file with a previously saved matrix.
+
 #### (visualize value)
 This function lets the user visualize a certain value in a human-friendly way, dependant on the type of value:
 
