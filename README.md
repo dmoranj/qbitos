@@ -427,7 +427,8 @@ Aside from the library's features, some functions are provided to improve the us
 Saves a matrix in the internal matrix format to a file.
 
 #### (load-matrix file)
-Loads a matrix in the internal matrix format from a file with a previously saved matrix.
+Loads a matrix in the internal matrix format
+from a file with a previously saved matrix.
 
 #### (visualize value)
 This function lets the user visualize a certain value in a human-friendly way, dependant on the type of value:
