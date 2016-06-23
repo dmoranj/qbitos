@@ -37,5 +37,4 @@
       (bit-sequence-value (map #(bit-xor (first %) (second %)) (partition 2 (interleave abit xbit)))))))
 
 (defn loadSimonProblem[a bits]
-  (def fSimon (createFModuloA a))
-  )
+  (def fSimon (createFModuloA a)))
