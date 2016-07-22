@@ -70,10 +70,11 @@
         matrix (reduce addOperator initial operatorList)]
     (apply tensorp matrix)))
 
+
 (defmacro defoperator[x n]
   (let [operator (create-operator (str x) n)]
-    `(def ~x ~operator)
-    ))
+    `(def ~x ~operator)))
+
 
 (defn createCij[i j n]
   (let [opX (create-operator (str "X" j) n)
